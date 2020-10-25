@@ -3,6 +3,7 @@
     <div class="menuToggle">
       <span @click="$root.$emit('menu-toggle')">切换菜单</span>
     </div>
+    <div class="user">user</div>
   </div>
 </template>
 <script>
@@ -11,6 +12,12 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+#admin-header {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
 .menuToggle {
   cursor: pointer;
 }
