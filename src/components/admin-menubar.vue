@@ -12,28 +12,28 @@
       <el-submenu index="1">
         <template slot="title">
           <i class="el-icon-location"></i>
-          <span slot="title">导航一</span>
+          <span slot="title">食品管理</span>
         </template>
         <el-menu-item index="1-1">
           <i class="el-icon-setting"></i>
-          选项1
+          添加食品
         </el-menu-item>
         <el-menu-item index="1-2">
           <i class="el-icon-setting"></i>
-          选项2
+          更新食品
         </el-menu-item>
       </el-submenu>
-      <el-menu-item index="2">
+      <el-menu-item index="foods-catefory">
         <i class="el-icon-menu"></i>
-        <span slot="title">导航二</span>
+        <span slot="title">食品分类</span>
       </el-menu-item>
-      <el-menu-item index="3" >
+      <el-menu-item index="rating" >
         <i class="el-icon-document"></i>
-        <span slot="title">导航三</span>
+        <span slot="title">店铺评价</span>
       </el-menu-item>
       <el-menu-item index="4">
         <i class="el-icon-setting"></i>
-        <span slot="title">导航四</span>
+        <span slot="title">设置</span>
       </el-menu-item>
     </el-menu>
   </div>
