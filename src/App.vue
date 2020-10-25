@@ -5,17 +5,22 @@
         <admin-menubar></admin-menubar>
       </el-aside>
       <el-container>
-        <el-header>Header</el-header>
-        <el-main>Main</el-main>
+        <el-header>
+          <admin-header></admin-header>
+        </el-header>
+        <el-main>
+         <router-view></router-view>
+        </el-main>
       </el-container>
     </el-container>
   </div>
 </template>
 <script>
 import AdminMenubar from "@/components/admin-menubar";
+import AdminHeader from "@/components/admin-header";
 export default {
   components: {
-    AdminMenubar,
+    AdminMenubar,AdminHeader
   },
 };
 </script>
