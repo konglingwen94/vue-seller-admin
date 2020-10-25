@@ -3,9 +3,21 @@ import App from "./App.vue";
 import router from "./router";
 import "element-ui/lib/theme-chalk/index.css";
 
-
-import {Menu,MenuItem,MenuItemGroup,Submenu, Header, Button, Container, Aside, Main } from "element-ui";
-
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  Menu,
+  MenuItem,
+  MenuItemGroup,
+  Submenu,
+  Header,
+  Button,
+  Container,
+  Aside,
+  Main,
+} from "element-ui";
+Vue.use(Breadcrumb);
+Vue.use(BreadcrumbItem);
 Vue.use(Button);
 Vue.use(Container);
 Vue.use(Header);
