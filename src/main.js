@@ -2,6 +2,8 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import "element-ui/lib/theme-chalk/index.css";
+
+
 import { Header, Button, Container, Aside, Main } from "element-ui";
 
 Vue.use(Button);

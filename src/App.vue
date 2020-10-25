@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <el-container>
-      <el-aside width="200px">Aside</el-aside>
+      <el-aside width="200px">
+        <admin-menubar></admin-menubar>
+      </el-aside>
       <el-container>
         <el-header>Header</el-header>
         <el-main>Main</el-main>
@@ -9,7 +11,14 @@
     </el-container>
   </div>
 </template>
-
+<script>
+import AdminMenubar from "@/components/admin-menubar";
+export default {
+  components: {
+    AdminMenubar,
+  },
+};
+</script>
 <style lang="less">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -34,6 +43,4 @@
   background-color: #e9eef3;
   color: #333;
 }
-
-
 </style>
