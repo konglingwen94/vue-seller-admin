@@ -1,11 +1,12 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <el-button>button</el-button>
-    <!-- <router-view/> -->
+    <el-container>
+      <el-aside width="200px">Aside</el-aside>
+      <el-container>
+        <el-header>Header</el-header>
+        <el-main>Main</el-main>
+      </el-container>
+    </el-container>
   </div>
 </template>
 
@@ -18,16 +19,21 @@
   color: #2c3e50;
 }
 
-// #nav {
-//   padding: 30px;
+.el-header,
+.el-footer {
+  background-color: #b3c0d1;
+  color: #333;
+}
 
-//   a {
-//     font-weight: bold;
-//     color: #2c3e50;
+.el-aside {
+  background-color: #d3dce6;
+  color: #333;
+}
 
-//     &.router-link-exact-active {
-//       color: #42b983;
-//     }
-//   }
-// }
+.el-main {
+  background-color: #e9eef3;
+  color: #333;
+}
+
+
 </style>
