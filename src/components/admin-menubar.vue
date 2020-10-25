@@ -1,6 +1,5 @@
 <template>
   <div class="admin-menubar">
-    
     <el-menu
       default-active="1-4-1"
       class="el-menu-vertical-demo"
@@ -40,7 +39,7 @@
       </el-menu-item>
     </el-menu>
   </div>
-</template>
+</template> 
 
 <script>
 export default {
@@ -49,6 +48,11 @@ export default {
     return {
       isCollapse: true
     };
+  },
+  created() {
+    this.$root.$on("menu-toggle", () => {
+      this.isCollapse = !this.isCollapse;
+    });
   },
   methods: {
     handleOpen(key, keyPath) {
