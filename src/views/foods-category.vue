@@ -18,6 +18,8 @@
         </template>
       </el-table-column>
     </el-table>
+
+    <!-- <div slot="footer">pagination</div> -->
   </page-layout>
 </template>
 <script>

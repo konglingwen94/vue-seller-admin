@@ -6,6 +6,9 @@
     <div class="page-layout__body">
       <slot></slot>
     </div>
+    <div class="page-layout__footer">
+      <slot name="footer"></slot>
+    </div>
   </div>
 </template>
 <script>
@@ -15,8 +18,8 @@ export default {
 </script>
 <style lang="less" scoped>
 .page-layout {
-  &__header {
-    margin-bottom: 40px;
+  &__body {
+    margin: 40px 0;
   }
 }
 </style>
