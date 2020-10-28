@@ -19,6 +19,19 @@
       </el-table-column>
     </el-table>
 
+    <!-- 弹框 -->
+    <el-dialog :title="getDialogTitle" :visible.sync="dialogVisible">
+      <el-form>
+        <el-form-item label="名称">
+          <el-input v-model="form.name"></el-input>
+        </el-form-item>
+        <!-- <el-form-item> -->
+        <!-- </el-form-item> -->
+      </el-form>
+      <div slot="footer">
+        <el-button type="primary" @click="submit">确定</el-button>
+      </div>
+    </el-dialog>
     <!-- <div slot="footer">pagination</div> -->
   </page-layout>
 </template>
@@ -28,9 +41,17 @@ export default {
   name: "foods-category",
   data() {
     return {
+      dialogVisible: true,
+      form: { name: "" },
       dataList: [],
       loading: false,
+      editingId: "",
     };
+  },
+  computed: {
+    getDialogTitle() {
+      return this.editingId ? "编辑" : "添加";
+    },
   },
   created() {
     this.loading = true;
@@ -44,8 +65,22 @@ export default {
       });
   },
   methods: {
-    add() {},
-    update(id) {
+    showDialog() {
+      this.dialogVisible = true;
+    },
+    hideDialog() {
+      this.dialogVisible = false;
+    },
+    resetDialog() {
+      this.form.name = "";
+      this.editingId = "";
+    },
+    submit() {
+      if (!this.form.name) {
+        this.$message.error("请输入名称");
+        return;
+      }
+
       this.loading = true;
       updateFoodsCategory(id)
         .then(() => {
@@ -59,6 +94,12 @@ export default {
           this.loading = false;
           this.$message.error(err.message);
         });
+    },
+    add() {
+      this.showDialog();
+    },
+    update(id) {
+      this.showDialog();
     },
     remove(id) {},
     // fetchList(){

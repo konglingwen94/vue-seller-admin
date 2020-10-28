@@ -1,5 +1,5 @@
 import {
-    Dialog,
+  Dialog,
   Breadcrumb,
   BreadcrumbItem,
   Menu,
@@ -13,9 +13,17 @@ import {
   Main,
   Table,
   TableColumn,
+  Input,
+  Form,
+  FormItem,
+  Message,
 } from "element-ui";
 
 export default (Vue) => {
+  Vue.prototype.$message = Message;
+  Vue.use(Input);
+  Vue.use(FormItem);
+  Vue.use(Form);
   Vue.use(Table);
   Vue.use(TableColumn);
   Vue.use(Breadcrumb);
