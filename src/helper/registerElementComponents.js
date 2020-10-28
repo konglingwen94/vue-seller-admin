@@ -17,12 +17,14 @@ import {
   Form,
   FormItem,
   Message,
-  Switch,
+  Select,
+  Option,
 } from "element-ui";
 
 export default (Vue) => {
   Vue.prototype.$message = Message;
-  Vue.use(Switch);
+  Vue.use(Option);
+  Vue.use(Select);
   Vue.use(Input);
   Vue.use(FormItem);
   Vue.use(Form);
