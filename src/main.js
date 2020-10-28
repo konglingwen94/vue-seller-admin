@@ -15,7 +15,12 @@ import {
   Container,
   Aside,
   Main,
+  Table,
+  TableColumn,
 } from "element-ui";
+
+Vue.use(Table);
+Vue.use(TableColumn);
 Vue.use(Breadcrumb);
 Vue.use(BreadcrumbItem);
 Vue.use(Button);
