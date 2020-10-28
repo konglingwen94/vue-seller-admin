@@ -25,7 +25,7 @@ export default {
   name: "foods-category",
   data() {
     return {
-      dataList: [{ name: "中餐", id: 1 }],
+      dataList: [],
       loading: false,
     };
   },
