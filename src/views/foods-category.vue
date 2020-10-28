@@ -13,20 +13,21 @@
       </el-table-column>
       <el-table-column label="操作">
         <template v-slot="{ row }">
-          <el-button @click="update(row.id)" type="primary">更新</el-button>
-          <el-button @click="remove(row.id)" type="danger">删除</el-button>
+          <el-button @click="update(row._id)" type="primary">更新</el-button>
+          <el-button @click="remove(row._id)" type="danger">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
 
     <!-- 弹框 -->
-    <el-dialog :title="getDialogTitle" :visible.sync="dialogVisible">
+    <el-dialog @close="resetDialog" :title="getDialogTitle" :visible.sync="dialogVisible">
       <el-form>
         <el-form-item label="名称">
           <el-input v-model="form.name"></el-input>
         </el-form-item>
-        <!-- <el-form-item> -->
-        <!-- </el-form-item> -->
+        <el-form-item label="特价类型">
+          <el-switch v-model="type"></el-switch>
+        </el-form-item>
       </el-form>
       <div slot="footer">
         <el-button type="primary" @click="submit">确定</el-button>
@@ -36,13 +37,19 @@
   </page-layout>
 </template>
 <script>
-import { fetchFoodsCategoryList, updateFoodsCategory } from "@/helper/request.js";
+import {
+  fetchFoodsCategoryList,
+  deleteFoodsCategory,
+  createFoodsCategory,
+  updateFoodsCategory,
+} from "@/helper/request.js";
+import { pick } from "@/helper/utils.js";
 export default {
   name: "foods-category",
   data() {
     return {
       dialogVisible: true,
-      form: { name: "" },
+      form: { name: "", type: -1 },
       dataList: [],
       loading: false,
       editingId: "",
@@ -51,6 +58,14 @@ export default {
   computed: {
     getDialogTitle() {
       return this.editingId ? "编辑" : "添加";
+    },
+    type: {
+      get() {
+        return this.form.type === 0;
+      },
+      set(val) {
+        this.form.type = val ? 0 : -1;
+      },
     },
   },
   created() {
@@ -76,19 +91,21 @@ export default {
       this.editingId = "";
     },
     submit() {
-      if (!this.form.name) {
+      const { name, type } = this.form;
+      if (!name) {
         this.$message.error("请输入名称");
         return;
       }
-
+      const editingId = this.editingId;
+      const payload = { name, type: type ? -1 : 0 };
       this.loading = true;
-      updateFoodsCategory(id)
+      (editingId ? updateFoodsCategory(editingId, payload) : createFoodsCategory(payload))
         .then(() => {
           return fetchFoodsCategoryList();
         })
         .then(() => {
           this.loading = false;
-          this.$message.success("更新成功");
+          this.$message.success(`${editingId ? "更新" : "添加"}成功`);
         })
         .catch((err) => {
           this.loading = false;
@@ -99,12 +116,15 @@ export default {
       this.showDialog();
     },
     update(id) {
+      this.editingId = id;
+      Object.assign(this.form, pick(this.form, Object.keys(this.form)));
       this.showDialog();
     },
-    remove(id) {},
-    // fetchList(){
-
-    // }
+    remove(id) {
+      deleteFoodsCategory(id)
+        .then(() => {})
+        .catch((err) => {});
+    },
   },
 };
 </script>

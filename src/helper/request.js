@@ -27,3 +27,7 @@ export const fetchFoodsCategoryList = () => instance.get("/menus");
 export const updateFoodsCategory = (id, payload) => {
   return instance.patch(`/menus/${id}`, payload);
 };
+export const createFoodsCategory = (payload) => {
+  return instance.post(`/menus/`, payload);
+};
+export const deleteFoodsCategory = (id) => instance.delete(`/menus/${id}`);
