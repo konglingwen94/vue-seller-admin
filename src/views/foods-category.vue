@@ -1,6 +1,8 @@
 <template>
-  <div id="foods-category">
-    <el-button @click="add"> 添加分类</el-button>
+  <page-layout id="foods-category">
+    <div slot="header">
+      <el-button @click="add"> 添加分类</el-button>
+    </div>
 
     <el-table border :data="dataList">
       <el-table-column label="名称" prop="name"></el-table-column>
@@ -16,11 +18,10 @@
         </template>
       </el-table-column>
     </el-table>
-  </div>
+  </page-layout>
 </template>
 <script>
-
-import {fetchFoodsCategoryList,updateFoodsCategory} from '@/helper/request.js'
+import { fetchFoodsCategoryList, updateFoodsCategory } from "@/helper/request.js";
 export default {
   name: "foods-category",
   data() {
@@ -33,7 +34,7 @@ export default {
     this.loading = true;
     fetchFoodsCategoryList()
       .then((res) => {
-        this.dataList=res
+        this.dataList = res;
         this.loading = false;
       })
       .catch((err) => {

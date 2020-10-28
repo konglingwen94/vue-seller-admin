@@ -8,9 +8,14 @@
     </div>
   </div>
 </template>
+<script>
+export default {
+  name: "page-layout",
+};
+</script>
 <style lang="less" scoped>
 .page-layout {
-  &__ header {
+  &__header {
     margin-bottom: 40px;
   }
 }
