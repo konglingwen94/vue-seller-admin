@@ -47,19 +47,6 @@ import {
   updateFoodsCategory,
 } from "@/helper/request.js";
 import { pick } from "@/helper/utils.js";
-/**
- *      case 0:
-          return "decrease";
- *      case 1:
-          return "discount";
-        case 2:
-          return "special";
-        case 3:
-          return "invoice";
-        case 4:
-          return "guarantee";
- * 
- *  */
 
 export default {
   name: "foods-category",
@@ -84,14 +71,6 @@ export default {
     getDialogTitle() {
       return this.editingId ? "编辑" : "添加";
     },
-    // type: {
-    //   get() {
-    //     return this.form.type === 0;
-    //   },
-    //   set(val) {
-    //     this.form.type = val ? 0 : -1;
-    //   },
-    // },
   },
   created() {
     this.loading = true;
@@ -145,7 +124,9 @@ export default {
         .then(() => {
           return fetchFoodsCategoryList();
         })
-        .then(() => {
+        .then((res) => {
+          this.dataList = res;
+          // this.loading = false;
           this.loading = false;
           this.$message.success(`${editingId ? "更新" : "添加"}成功`);
         })
@@ -163,10 +144,20 @@ export default {
 
       this.showDialog();
     },
-    remove(id) {
+    async remove(id) {
+      try {
+        await this.$confirm("此操作将永久删除该文件, 是否继续?",   { type: "warning", });
+      } catch (error) {
+        return;
+      }
       deleteFoodsCategory(id)
-        .then(() => {})
-        .catch((err) => {});
+        .then(() => {
+          const delIndex=this.dataList.findIndex(item=>item._id===id)
+          this.dataList.splice(delIndex,1)
+        })
+        .catch((err) => {
+          this.$message.error(err.message)
+        });
     },
   },
 };
