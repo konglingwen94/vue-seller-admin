@@ -18,9 +18,9 @@
           <i class="el-icon-setting"></i>
           食品列表
         </el-menu-item>
-        <el-menu-item index="/foods-editor">
+        <el-menu-item index="/foods/add">
           <i class="el-icon-setting"></i>
-          更新食品
+          添加食品
         </el-menu-item>
       </el-submenu>
       <el-menu-item index="/foods-catefory">
