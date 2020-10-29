@@ -37,10 +37,11 @@ export const createFoodsCategory = (payload) => {
 // 删除食品分类
 export const deleteFoodsCategory = (id) => instance.delete(`/menus/${id}`);
 // 食品列表
-export const fetchFoodsList = () => instance.get("/foods");
+export const fetchFoodsList = (payload) => instance.get("/foods", { params: payload });
 // 更新食品
 export const updateFoods = (id, payload) => instance.patch(`/foods/${id}`, payload);
 // 删除食品
 export const deleteFoods = (id) => instance.delete(`/foods/${id}`);
 // 添加食品
 export const createFoods = (payload) => instance.post("/foods", payload);
+export const fetchOneFoods = (id) => instance.get(`/foods/${id}`);

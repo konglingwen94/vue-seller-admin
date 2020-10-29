@@ -21,10 +21,22 @@ import {
   Option,
   MessageBox,
   Loading,
+  Upload,
+  Pagination,
+  Dropdown,
+  DropdownMenu,
+  DropdownItem,
+  InputNumber,
 } from "element-ui";
 export default (Vue) => {
   Vue.prototype.$message = Message;
   Vue.prototype.$confirm = MessageBox.confirm;
+  Vue.use(Pagination);
+  Vue.use(InputNumber);
+  Vue.use(Dropdown);
+  Vue.use(DropdownMenu);
+  Vue.use(DropdownItem);
+  Vue.use(Upload);
   Vue.use(Loading);
   Vue.use(Option);
   Vue.use(Select);
