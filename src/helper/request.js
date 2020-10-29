@@ -22,12 +22,25 @@ instance.interceptors.response.use(
     return Promise.reject(err);
   }
 );
-
+// 获取食品分类列表
 export const fetchFoodsCategoryList = () => instance.get("/menus");
+// 更新食品分类
+
 export const updateFoodsCategory = (id, payload) => {
   return instance.patch(`/menus/${id}`, payload);
 };
+// 新建食品分类
+
 export const createFoodsCategory = (payload) => {
   return instance.post(`/menus/`, payload);
 };
+// 删除食品分类
 export const deleteFoodsCategory = (id) => instance.delete(`/menus/${id}`);
+// 食品列表
+export const fetchFoodsList = () => instance.get("/foods");
+// 更新食品
+export const updateFoods = (id, payload) => instance.patch(`/foods/${id}`, payload);
+// 删除食品
+export const deleteFoods = (id) => instance.delete(`/foods/${id}`);
+// 添加食品
+export const createFoods = (payload) => instance.post("/foods", payload);
