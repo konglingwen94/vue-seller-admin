@@ -14,11 +14,11 @@
           <i class="el-icon-location"></i>
           <span slot="title">食品管理</span>
         </template>
-        <el-menu-item index="1-1">
+        <el-menu-item index="foods-list">
           <i class="el-icon-setting"></i>
-          添加食品
+          食品列表
         </el-menu-item>
-        <el-menu-item index="1-2">
+        <el-menu-item index="foods-editor">
           <i class="el-icon-setting"></i>
           更新食品
         </el-menu-item>
