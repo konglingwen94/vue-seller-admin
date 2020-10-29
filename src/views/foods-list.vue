@@ -6,6 +6,8 @@
       <el-table-column prop="price" label="价格"></el-table-column>
       <el-table-column prop="oldPrice" label="原价"></el-table-column>
       <el-table-column prop="rating" label="评价数"></el-table-column>
+      <el-table-column prop="info" label="信息"></el-table-column>
+      <el-table-column prop="description" label="描述"></el-table-column>
       <el-table-column prop="sellCount" label="销量"></el-table-column>
       <el-table-column label="操作">
         <template v-slot="{ row }">
