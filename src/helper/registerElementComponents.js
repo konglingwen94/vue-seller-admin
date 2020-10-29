@@ -20,11 +20,12 @@ import {
   Select,
   Option,
   MessageBox,
+  Loading,
 } from "element-ui";
 export default (Vue) => {
   Vue.prototype.$message = Message;
   Vue.prototype.$confirm = MessageBox.confirm;
-  // Vue.use(MessageBox);
+  Vue.use(Loading);
   Vue.use(Option);
   Vue.use(Select);
   Vue.use(Input);

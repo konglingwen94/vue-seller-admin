@@ -9,29 +9,29 @@
       @close="handleClose"
       :collapse="isCollapse"
     >
-      <el-submenu index="1">
+      <el-submenu index="/1">
         <template slot="title">
           <i class="el-icon-location"></i>
           <span slot="title">食品管理</span>
         </template>
-        <el-menu-item index="foods-list">
+        <el-menu-item index="/foods-list">
           <i class="el-icon-setting"></i>
           食品列表
         </el-menu-item>
-        <el-menu-item index="foods-editor">
+        <el-menu-item index="/foods-editor">
           <i class="el-icon-setting"></i>
           更新食品
         </el-menu-item>
       </el-submenu>
-      <el-menu-item index="foods-catefory">
+      <el-menu-item index="/foods-catefory">
         <i class="el-icon-menu"></i>
         <span slot="title">食品分类</span>
       </el-menu-item>
-      <el-menu-item index="rating" >
+      <el-menu-item index="/rating" >
         <i class="el-icon-document"></i>
         <span slot="title">店铺评价</span>
       </el-menu-item>
-      <el-menu-item index="4">
+      <el-menu-item index="/4">
         <i class="el-icon-setting"></i>
         <span slot="title">设置</span>
       </el-menu-item>

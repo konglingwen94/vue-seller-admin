@@ -23,7 +23,12 @@ const routes = [
     component: () => import(/* webpackChunkName: "foods-list" */ '../views/foods-list.vue')
   },
   {
-    path: '/foods-editor',
+    path: '/foods/:id/edit',
+    name: 'foods-editor',
+     
+    component: () => import(/* webpackChunkName: "foods-editor" */ '../views/foods-editor.vue')
+  }, {
+    path: '/foods/add',
     name: 'foods-editor',
      
     component: () => import(/* webpackChunkName: "foods-editor" */ '../views/foods-editor.vue')
