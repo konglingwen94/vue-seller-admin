@@ -60,7 +60,7 @@ export default {
         { value: 3, label: "支持发票" },
         { value: 4, label: "外卖保" },
       ],
-      dialogVisible: true,
+      dialogVisible: false,
       form: { name: "", type: -1 },
       dataList: [],
       loading: false,
