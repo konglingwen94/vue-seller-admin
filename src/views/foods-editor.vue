@@ -37,6 +37,7 @@
       <el-form-item label="缩略图">
         <el-upload
           list-type="picture"
+          accept=".jpg,.png,jpeg"
           :on-success="
             (file, res, fileList) => {
               if (fileList.length > 1) {
@@ -50,13 +51,8 @@
               $message.error(err.message);
             }
           "
-          :on-remove="
-            () => {
-              fileList = [];
-              form.image = '';
-            }
-          "
-          action="http://127.0.0.1:7001/api/upload"
+          :on-remove="deleteUploadedFile"
+          action="/api/uploads"
           :file-list="fileList"
         >
           <el-button>上传缩略图</el-button>
@@ -69,9 +65,9 @@
   </page-layout>
 </template>
 <script>
-import { fetchFoodsCategoryList, fetchOneFoods, updateOneFoods } from "@/helper/request";
+import { fetchFoodsCategoryList, fetchOneFoods, updateOneFoods, deleteUploadedFile } from "@/helper/request";
 import { pick } from "@/helper/utils";
-import { log } from 'util';
+
 export default {
   name: "foods-editor",
   data: () => ({
@@ -122,8 +118,15 @@ export default {
     }
   },
   methods: {
+    deleteUploadedFile(file) {
+      if (!file.response) return;
+      const filename = file.response.path.split("/").pop();
+      deleteUploadedFile(filename).catch((err) => {
+        this.$message.error(err.message);
+      });
+    },
     submit() {
-      const { name, image, info, description, oldPrice,menuID, price } = this.form;
+      const { name, image, info, description, oldPrice, menuID, price } = this.form;
 
       if (!name) {
         this.$message.error("请输入名称");
@@ -146,7 +149,7 @@ export default {
         return;
       }
       const id = this.$route.params.id;
-      const payload = {menuID, name, info, description, image, oldPrice, price };
+      const payload = { menuID, name, info, description, image, oldPrice, price };
       this.loading = true;
       updateOneFoods(id, payload)
         .then((res) => {
