@@ -40,10 +40,15 @@
           accept=".jpg,.png,jpeg"
           :on-success="
             (file, res, fileList) => {
-              if (fileList.length > 1) {
-                fileList.shift();
-              }
               form.image = file.path;
+
+              if (fileList.length > 1) {
+                deleteUploadedFile(fileList.shift())
+                  .then(() => {})
+                  .catch((err) => {
+                    $message.error(err.message);
+                  });
+              }
             }
           "
           :on-error="
@@ -119,6 +124,7 @@ export default {
   },
   methods: {
     deleteUploadedFile(file) {
+      this.form.image = "";
       if (!file.response) return;
       const filename = file.response.path.split("/").pop();
       deleteUploadedFile(filename).catch((err) => {
