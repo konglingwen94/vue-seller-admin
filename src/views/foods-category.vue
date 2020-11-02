@@ -21,7 +21,7 @@
 
     <!-- 弹框 -->
     <el-dialog @close="resetDialog" :title="getDialogTitle" :visible.sync="dialogVisible">
-      <el-form>
+      <el-form label-width="auto" label-suffix=" :">
         <el-form-item label="名称">
           <el-input v-model="form.name"></el-input>
         </el-form-item>
@@ -47,7 +47,7 @@ import {
   updateFoodsCategory,
 } from "@/helper/request.js";
 import { pick } from "@/helper/utils.js";
-import { log } from 'util';
+ 
 
 export default {
   name: "foods-category",
