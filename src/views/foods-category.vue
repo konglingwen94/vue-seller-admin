@@ -26,7 +26,7 @@
           <el-input v-model="form.name"></el-input>
         </el-form-item>
         <el-form-item label="优惠类型">
-          <el-select @clear="form.type=-1" v-model="form.type" clearable placeholder="请选择优惠类型">
+          <el-select v-model="form.type" clearable placeholder="请选择优惠类型">
             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
@@ -47,14 +47,13 @@ import {
   updateFoodsCategory,
 } from "@/helper/request.js";
 import { pick } from "@/helper/utils.js";
- 
 
 export default {
   name: "foods-category",
   data() {
     return {
       options: [
-        { value: -1, label: "没有优惠" },
+        // { value: -1, label: "没有优惠" },
         { value: 0, label: "满减" },
         { value: 1, label: "折扣" },
         { value: 2, label: "特价" },
@@ -62,7 +61,7 @@ export default {
         { value: 4, label: "外卖保" },
       ],
       dialogVisible: false,
-      form: { name: "", type: -1 },
+      form: { name: "", type: "" },
       dataList: [],
       loading: false,
       editingId: "",
@@ -119,7 +118,8 @@ export default {
         return;
       }
       const editingId = this.editingId;
-      const payload = { name, type };
+      const payload = { name, type: type ? type : -1 };
+
       this.loading = true;
       (editingId ? updateFoodsCategory(editingId, payload) : createFoodsCategory(payload))
         .then(() => {
@@ -130,11 +130,9 @@ export default {
           // this.loading = false;
           this.loading = false;
           this.$message.success(`${editingId ? "更新" : "添加"}成功`);
-          this.hideDialog()
+          this.hideDialog();
         })
         .catch((err) => {
-          
-           
           this.loading = false;
           this.$message.error(err.message);
         });
@@ -150,19 +148,18 @@ export default {
     },
     async remove(id) {
       try {
-        await this.$confirm("此操作将永久删除该文件, 是否继续?",   { type: "warning", });
+        await this.$confirm("此操作将永久删除该文件, 是否继续?", { type: "warning" });
       } catch (error) {
         return;
       }
       deleteFoodsCategory(id)
         .then(() => {
-          const delIndex=this.dataList.findIndex(item=>item._id===id)
-          this.dataList.splice(delIndex,1)
-          this.$message.success("删除成功")
-
+          const delIndex = this.dataList.findIndex((item) => item._id === id);
+          this.dataList.splice(delIndex, 1);
+          this.$message.success("删除成功");
         })
         .catch((err) => {
-          this.$message.error(err.message)
+          this.$message.error(err.message);
         });
     },
   },
