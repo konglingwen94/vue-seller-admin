@@ -26,7 +26,7 @@
           <el-input v-model="form.name"></el-input>
         </el-form-item>
         <el-form-item label="优惠类型">
-          <el-select v-model="form.type" clearable placeholder="请选择优惠类型">
+          <el-select v-model="formType" clearable placeholder="请选择优惠类型">
             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
@@ -53,7 +53,7 @@ export default {
   data() {
     return {
       options: [
-        // { value: -1, label: "没有优惠" },
+        
         { value: 0, label: "满减" },
         { value: 1, label: "折扣" },
         { value: 2, label: "特价" },
@@ -70,6 +70,14 @@ export default {
   computed: {
     getDialogTitle() {
       return this.editingId ? "编辑" : "添加";
+    },
+    formType: {
+      set(val) {
+        this.form.type = val===''?-1:val
+      },
+      get() {
+        return this.form.type === -1 ? "" : this.form.type;
+      },
     },
   },
   created() {
@@ -97,7 +105,7 @@ export default {
         case 4:
           return "外卖保";
         default:
-          return "没有优惠";
+          return "";
       }
     },
     showDialog() {
@@ -108,7 +116,7 @@ export default {
     },
     resetDialog() {
       this.form.name = "";
-      this.form.type = -1;
+      this.form.type = "";
       this.editingId = "";
     },
     submit() {
@@ -118,7 +126,7 @@ export default {
         return;
       }
       const editingId = this.editingId;
-      const payload = { name, type: type ? type : -1 };
+      const payload = { name, type  };
 
       this.loading = true;
       (editingId ? updateFoodsCategory(editingId, payload) : createFoodsCategory(payload))
