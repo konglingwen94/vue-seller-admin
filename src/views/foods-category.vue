@@ -157,6 +157,7 @@ export default {
         .then(() => {
           const delIndex=this.dataList.findIndex(item=>item._id===id)
           this.dataList.splice(delIndex,1)
+          this.$message.success("删除成功")
         })
         .catch((err) => {
           this.$message.error(err.message)
