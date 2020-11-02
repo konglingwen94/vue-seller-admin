@@ -10,6 +10,7 @@ instance.interceptors.request.use(
     return config;
   },
   (err) => {
+    
     return Promise.reject(err);
   }
 );
@@ -19,6 +20,9 @@ instance.interceptors.response.use(
     return res.data;
   },
   (err) => {
+    if(err.response && err.response.data){
+      return Promise.reject(err.response.data)
+    }
     return Promise.reject(err);
   }
 );

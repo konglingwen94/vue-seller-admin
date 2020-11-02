@@ -47,6 +47,7 @@ import {
   updateFoodsCategory,
 } from "@/helper/request.js";
 import { pick } from "@/helper/utils.js";
+import { log } from 'util';
 
 export default {
   name: "foods-category",
@@ -131,6 +132,8 @@ export default {
           this.$message.success(`${editingId ? "更新" : "添加"}成功`);
         })
         .catch((err) => {
+          
+           
           this.loading = false;
           this.$message.error(err.message);
         });
