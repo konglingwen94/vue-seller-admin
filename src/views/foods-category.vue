@@ -53,7 +53,6 @@ export default {
   data() {
     return {
       options: [
-        
         { value: 0, label: "满减" },
         { value: 1, label: "折扣" },
         { value: 2, label: "特价" },
@@ -73,7 +72,7 @@ export default {
     },
     formType: {
       set(val) {
-        this.form.type = val===''?-1:val
+        this.form.type = val === "" ? -1 : val;
       },
       get() {
         return this.form.type === -1 ? "" : this.form.type;
@@ -126,7 +125,7 @@ export default {
         return;
       }
       const editingId = this.editingId;
-      const payload = { name, type  };
+      const payload = { name, type };
 
       this.loading = true;
       (editingId ? updateFoodsCategory(editingId, payload) : createFoodsCategory(payload))
@@ -135,7 +134,8 @@ export default {
         })
         .then((res) => {
           this.dataList = res;
-          // this.loading = false;
+        })
+        .then(() => {
           this.loading = false;
           this.$message.success(`${editingId ? "更新" : "添加"}成功`);
           this.hideDialog();
