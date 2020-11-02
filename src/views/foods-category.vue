@@ -130,6 +130,7 @@ export default {
           // this.loading = false;
           this.loading = false;
           this.$message.success(`${editingId ? "更新" : "添加"}成功`);
+          this.hideDialog()
         })
         .catch((err) => {
           
@@ -158,6 +159,7 @@ export default {
           const delIndex=this.dataList.findIndex(item=>item._id===id)
           this.dataList.splice(delIndex,1)
           this.$message.success("删除成功")
+
         })
         .catch((err) => {
           this.$message.error(err.message)
