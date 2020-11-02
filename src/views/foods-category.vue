@@ -26,7 +26,7 @@
           <el-input v-model="form.name"></el-input>
         </el-form-item>
         <el-form-item label="优惠类型">
-          <el-select v-model="form.type" clearable placeholder="请选择优惠类型">
+          <el-select @clear="form.type=-1" v-model="form.type" clearable placeholder="请选择优惠类型">
             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
