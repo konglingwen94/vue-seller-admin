@@ -22,11 +22,7 @@
         <el-input v-model="form.info"></el-input>
       </el-form-item>
       <el-form-item label="描述">
-        <el-input
-          type="textarea"
-          :autosize="{ minRows: 3, maxRows: 8 }"
-          v-model="form.description"
-        ></el-input>
+        <el-input type="textarea" :autosize="{ minRows: 3, maxRows: 8 }" v-model="form.description"></el-input>
       </el-form-item>
       <el-form-item label="原价">
         <el-input-number :step="0.1" v-model="form.oldPrice"></el-input-number>
@@ -37,17 +33,15 @@
       <el-form-item label="缩略图">
         <el-upload
           list-type="picture"
-          accept=".jpg,.png,jpeg"
+          accept=".jpg, .png, jpeg"
           :on-success="
             (file, res, fileList) => {
               form.image = file.path;
 
               if (fileList.length > 1) {
-                deleteUploadedFile(fileList.shift())
-                  .then(() => {})
-                  .catch((err) => {
-                    $message.error(err.message);
-                  });
+                fileList.shift()
+                deleteUploadedFile(file)
+                  
               }
             }
           "
@@ -56,7 +50,7 @@
               $message.error(err.message);
             }
           "
-          :on-remove="deleteUploadedFile"
+          :on-remove="handleRemoveUpload"
           action="/api/uploads"
           :file-list="fileList"
         >
@@ -70,7 +64,12 @@
   </page-layout>
 </template>
 <script>
-import { fetchFoodsCategoryList, fetchOneFoods, updateOneFoods, deleteUploadedFile } from "@/helper/request";
+import {
+  fetchFoodsCategoryList,
+  fetchOneFoods,
+  updateOneFoods,
+  deleteUploadedFile
+} from "@/helper/request";
 import { pick } from "@/helper/utils";
 
 export default {
@@ -84,23 +83,24 @@ export default {
       image: "",
       info: "",
       description: "",
-      menuID: "",
+      menuID: ""
     },
     fileList: [],
-    loading: false,
+    loading: false
   }),
   computed: {
     pageTitle() {
       return this.$route.params.id ? "更新商品" : "添加商品";
-    },
+    }
   },
   created() {
+    // 获取商品分类
     fetchFoodsCategoryList()
-      .then((res) => {
+      .then(res => {
         this.categoryOpts = res;
         // this.loading = false;
       })
-      .catch((err) => {
+      .catch(err => {
         this.$message.error(err.message);
         // this.loading = false;
       });
@@ -108,31 +108,44 @@ export default {
     if (this.pageTitle === "更新商品") {
       const id = this.$route.params.id;
       fetchOneFoods(id)
-        .then((res) => {
+        .then(res => {
           Object.assign(this.form, pick(res, Object.keys(this.form)));
           this.fileList = [
             {
               name: res.name,
-              url: res.image,
-            },
+              url: res.image
+            }
           ];
         })
-        .catch((err) => {
+        .catch(err => {
           this.$message.error(err.message);
         });
     }
   },
   methods: {
-    deleteUploadedFile(file) {
+    handleRemoveUpload(file) {
       this.form.image = "";
+      this.deleteUploadedFile(file);
+    },
+    deleteUploadedFile(file) {
       if (!file.response) return;
       const filename = file.response.path.split("/").pop();
-      deleteUploadedFile(filename).catch((err) => {
-        this.$message.error(err.message);
-      });
+      deleteUploadedFile(filename)
+         
+        .catch(err => {
+          this.$message.error(err.message);
+        });
     },
     submit() {
-      const { name, image, info, description, oldPrice, menuID, price } = this.form;
+      const {
+        name,
+        image,
+        info,
+        description,
+        oldPrice,
+        menuID,
+        price
+      } = this.form;
 
       if (!name) {
         this.$message.error("请输入名称");
@@ -155,19 +168,27 @@ export default {
         return;
       }
       const id = this.$route.params.id;
-      const payload = { menuID, name, info, description, image, oldPrice, price };
+      const payload = {
+        menuID,
+        name,
+        info,
+        description,
+        image,
+        oldPrice,
+        price
+      };
       this.loading = true;
       updateOneFoods(id, payload)
-        .then((res) => {
+        .then(res => {
           this.$message.success("更新商品成功");
           this.loading = false;
           this.$router.push("/foods-list");
         })
-        .catch((err) => {
+        .catch(err => {
           this.$message.error(err.message);
           this.loading = false;
         });
-    },
-  },
+    }
+  }
 };
 </script>
