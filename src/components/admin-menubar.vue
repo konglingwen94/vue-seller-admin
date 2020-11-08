@@ -1,7 +1,7 @@
 <template>
   <div class="admin-menubar">
     <el-menu
-      default-active="1-4-1"
+      :default-active="$route.path"
       class="el-menu-vertical-demo"
       router
       @select="handleSelect"
@@ -11,21 +11,21 @@
     >
       <el-submenu index="/1">
         <template slot="title">
-          <i class="el-icon-location"></i>
+          <i class="el-icon-s-management"></i>
           <span slot="title">食品管理</span>
         </template>
         <el-menu-item index="/foods-list">
-          <i class="el-icon-setting"></i>
+          <i class="el-icon-s-data"></i>
           食品列表
         </el-menu-item>
         <el-menu-item index="/foods/add">
-          <i class="el-icon-setting"></i>
+          <i class="el-icon-circle-plus"></i>
           添加食品
         </el-menu-item>
       </el-submenu>
       <el-menu-item index="/foods-catefory">
         <i class="el-icon-menu"></i>
-        <span slot="title">食品分类</span>
+        <span slot="title">菜单分类</span>
       </el-menu-item>
       <el-menu-item index="/rating" >
         <i class="el-icon-document"></i>
