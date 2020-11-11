@@ -34,24 +34,14 @@
         <el-upload
           list-type="picture"
           accept=".jpg, .png, jpeg"
-          :on-success="
-            (file, res, fileList) => {
-              form.image = file.path;
-
-              if (fileList.length > 1) {
-                fileList.shift()
-                deleteUploadedFile(file)
-                  
-              }
-            }
-          "
+          :on-success="handleUploadSuccess"
           :on-error="
             (err) => {
               $message.error(err.message);
             }
           "
           :on-remove="handleRemoveUpload"
-          action="/api/uploads"
+          action="/api/admin/uploads"
           :file-list="fileList"
         >
           <el-button>上传缩略图</el-button>
@@ -123,18 +113,27 @@ export default {
     }
   },
   methods: {
+    handleUploadSuccess(file, res, fileList) {
+      this.form.image = file.path;
+      if (fileList.length > 1) {
+        this.deleteUploadedFile(fileList.shift());
+      }
+    },
     handleRemoveUpload(file) {
       this.form.image = "";
       this.deleteUploadedFile(file);
     },
     deleteUploadedFile(file) {
-      if (!file.response) return;
-      const filename = file.response.path.split("/").pop();
-      deleteUploadedFile(filename)
-         
-        .catch(err => {
-          this.$message.error(err.message);
-        });
+      let filename;
+
+      if (file.response) {
+        filename = file.response.path.split("/").pop();
+      } else if (file.url) {
+        filename = file.url.split("/").pop();
+      }
+      deleteUploadedFile(filename).catch(err => {
+        this.$message.error(err.message);
+      });
     },
     submit() {
       const {
