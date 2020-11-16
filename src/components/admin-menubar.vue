@@ -9,6 +9,10 @@
       @close="handleClose"
       :collapse="isCollapse"
     >
+      <el-menu-item index="/seller">
+        <i class="el-icon-eleme"></i>
+        <span slot="title">店铺管理</span>
+      </el-menu-item>
       <el-submenu index="/1">
         <template slot="title">
           <i class="el-icon-s-management"></i>
@@ -27,10 +31,11 @@
         <i class="el-icon-menu"></i>
         <span slot="title">菜单分类</span>
       </el-menu-item>
-      <el-menu-item index="/ratings" >
+      <el-menu-item index="/ratings">
         <i class="el-icon-document"></i>
         <span slot="title">店铺评价</span>
       </el-menu-item>
+
       <el-menu-item index="/4">
         <i class="el-icon-setting"></i>
         <span slot="title">设置</span>
