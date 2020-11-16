@@ -1,7 +1,13 @@
 <template>
   <page-layout class="ratings">
     <!-- <pre>{{dataList[0]}}</pre> -->
-    <el-table border :data="dataList">
+
+    <div slot="header">
+      <el-button @click="deleteMany" :disabled="!selectionIdList.length" type="danger">删除勾选的数据</el-button>
+    </div>
+
+    <el-table border :data="dataList" @selection-change="selectionChange">
+      <el-table-column label="评价内容" type="selection"></el-table-column>
       <el-table-column label="评价内容" prop="text"></el-table-column>
       <el-table-column label="评分" prop="score"></el-table-column>
 
@@ -21,9 +27,9 @@
         background
         layout="prev,pager,next"
         :total="total"
-        :page-size="pageCount"
+        :page-size="pageSize"
         :current-page.sync="
-        current"
+        currentPage"
         @current-change="updateList"
       ></el-pagination>
     </div>
@@ -31,7 +37,11 @@
 </template>
 
 <script>
-import { fetchRatings, deleteOneRating } from "@/helper/request";
+import {
+  fetchRatings,
+  deleteOneRating,
+  deleteManyRatings
+} from "@/helper/request";
 export default {
   name: "page-rating",
   created() {
@@ -40,36 +50,54 @@ export default {
   data() {
     return {
       dataList: [],
-      current: 1,
-      total:0,
-      pageCount:10
+      selectionIdList: [],
+      currentPage: 1,
+      total: 0,
+      pageSize: 10
     };
   },
   methods: {
+    selectionChange(selection) {
+      this.selectionIdList = selection.map(item => item._id);
+    },
+    async deleteMany() {
+      try {
+        await this.$confirm("您勾选的数据以经删除将无法恢复，是否继续?", {
+          type: "warning"
+        });
+      } catch (error) {
+        return;
+      }
+      const idList = this.selectionIdList;
+
+      deleteManyRatings({ idList }).then(() => {
+        this.$message.success(`成功删除 ${idList.length} 条数据`);
+        this.updateList(
+          idList.length >= this.dataList.length
+            ? Math.max(this.currentPage - 1, 1)
+            : this.currentPage
+        );
+      });
+    },
     deleteOne(id) {
       deleteOneRating(id)
         .then(() => {
           this.$message.success("删除成功");
-          this.dataList.splice(
-            this.dataList.findIndex(item => item._id === id),
-            1
+          this.updateList(
+            this.dataList.length === 1
+              ? Math.max(this.currentPage - 1, 1)
+              : this.currentPage
           );
         })
         .catch(err => this.$message.error(err.message));
     },
     updateList(page = 1) {
-      fetchRatings({page})
+      fetchRatings({ page })
         .then(res => {
-          const data = res;
-          res = {
-            data: data.slice(0, 10),
-            total: 100,
-            pagination: { page: 3, pageCount: 10 }
-          };
           this.dataList = res.data;
           this.currentPage = res.pagination.page;
           this.total = res.total;
-          this.pageCount = res.pagination.pageCount;
+          this.pageSize = res.pagination.pageSize;
         })
         .catch(err => {
           this.$message.error(err.message);

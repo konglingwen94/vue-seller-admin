@@ -10,7 +10,6 @@ instance.interceptors.request.use(
     return config;
   },
   (err) => {
-    
     return Promise.reject(err);
   }
 );
@@ -20,8 +19,8 @@ instance.interceptors.response.use(
     return res.data;
   },
   (err) => {
-    if(err.response && err.response.data){
-      return Promise.reject(err.response.data)
+    if (err.response && err.response.data) {
+      return Promise.reject(err.response.data);
     }
     return Promise.reject(err);
   }
@@ -50,10 +49,11 @@ export const deleteFoods = (id) => instance.delete(`/foods/${id}`);
 export const createFoods = (payload) => instance.post("/foods", payload);
 export const fetchOneFoods = (id) => instance.get(`/foods/${id}`);
 
-export const deleteUploadedFile=(filename)=>instance.delete(`/uploads/${filename}`)
-
+export const deleteUploadedFile = (filename) => instance.delete(`/uploads/${filename}`);
 
 //获取评价列表
-export const fetchRatings=(payload)=>instance.get('/ratings',{params:payload})
+export const fetchRatings = (payload) => instance.get("/ratings", { params: payload });
 //删除评价
-export const deleteOneRating=(id)=>instance.delete(`/ratings/${id}`)
+export const deleteOneRating = (id) => instance.delete(`/ratings/${id}`);
+//批量删除评价
+export const deleteManyRatings = (payload) => instance.post(`/ratings`, payload);
