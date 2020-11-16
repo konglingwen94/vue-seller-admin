@@ -6,6 +6,7 @@
 
     <el-table border :data="dataList">
       <el-table-column label="名称" prop="name"></el-table-column>
+      <el-table-column label="商品数量" prop="foodsCount"></el-table-column>
       <el-table-column label="特价优惠">
         <template v-slot="{ row }">
           <span>{{ getType(row.type) }}</span>
