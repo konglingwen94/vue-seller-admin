@@ -57,3 +57,6 @@ export const fetchRatings = (payload) => instance.get("/ratings", { params: payl
 export const deleteOneRating = (id) => instance.delete(`/ratings/${id}`);
 //批量删除评价
 export const deleteManyRatings = (payload) => instance.post(`/ratings`, payload);
+// 店铺管理
+
+export const fetchSeller = () => instance.get("/seller");

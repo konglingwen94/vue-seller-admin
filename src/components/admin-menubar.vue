@@ -9,10 +9,19 @@
       @close="handleClose"
       :collapse="isCollapse"
     >
-      <el-menu-item index="/seller">
-        <i class="el-icon-eleme"></i>
-        <span slot="title">店铺管理</span>
-      </el-menu-item>
+      <el-submenu index="/seller">
+        <template slot="title">
+          <i class="el-icon-eleme"></i>
+          <span slot="title">店铺管理</span>
+        </template>
+        <el-menu-item index="/seller/setting">
+          <i class="el-icon-s-data"></i>配送设置
+        </el-menu-item>
+        <el-menu-item index="/seller/description">
+          <i class="el-icon-s-data"></i>店铺信息
+        </el-menu-item>
+      </el-submenu>
+
       <el-submenu index="/1">
         <template slot="title">
           <i class="el-icon-s-management"></i>
