@@ -20,14 +20,14 @@
       </el-table-column>
     </el-table>
 
-    <!-- 弹框 -->
+    <!-- 添加分类弹框 -->
     <el-dialog @close="resetDialog" :title="getDialogTitle" :visible.sync="dialogVisible">
       <el-form label-width="auto" label-suffix=" :">
         <el-form-item label="名称">
           <el-input v-model="form.name"></el-input>
         </el-form-item>
         <el-form-item label="优惠类型">
-          <el-select v-model="formType" clearable placeholder="请选择优惠类型">
+          <el-select  v-model="formType" clearable placeholder="请选择优惠类型">
             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
@@ -37,7 +37,6 @@
         <el-button type="primary" @click="submit">确定</el-button>
       </div>
     </el-dialog>
-    <!-- <div slot="footer">pagination</div> -->
   </page-layout>
 </template>
 <script>
@@ -104,8 +103,7 @@ export default {
           return "支持发票";
         case 4:
           return "外卖保";
-        default:
-          return "";
+         
       }
     },
     showDialog() {
