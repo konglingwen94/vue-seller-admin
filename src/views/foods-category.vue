@@ -60,7 +60,7 @@ export default {
         { value: 4, label: "外卖保" },
       ],
       dialogVisible: false,
-      form: { name: "", type: "" },
+      form: { name: "", type: -1 },
       dataList: [],
       loading: false,
       editingId: "",
@@ -114,7 +114,7 @@ export default {
     },
     resetDialog() {
       this.form.name = "";
-      this.form.type = "";
+      this.form.type = -1;
       this.editingId = "";
     },
     submit() {
