@@ -27,7 +27,7 @@
         <i class="el-icon-menu"></i>
         <span slot="title">菜单分类</span>
       </el-menu-item>
-      <el-menu-item index="/rating" >
+      <el-menu-item index="/ratings" >
         <i class="el-icon-document"></i>
         <span slot="title">店铺评价</span>
       </el-menu-item>
