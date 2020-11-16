@@ -1,6 +1,7 @@
 <template>
   <div class="seller">
       <pre>{{data}}</pre>
+      <el-card title="店铺介绍"></el-card>
   </div>
 </template>
 

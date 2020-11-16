@@ -1,5 +1,6 @@
 import {
   Dialog,
+  Tag,
   Breadcrumb,
   BreadcrumbItem,
   Menu,
@@ -57,6 +58,7 @@ export default (Vue) => {
   Vue.use(MenuItem);
   Vue.use(MenuItemGroup);
   Vue.use(Menu);
+  Vue.use(Tag);
   Vue.use(Dialog);
   Vue.use(Submenu);
 };
