@@ -51,3 +51,9 @@ export const createFoods = (payload) => instance.post("/foods", payload);
 export const fetchOneFoods = (id) => instance.get(`/foods/${id}`);
 
 export const deleteUploadedFile=(filename)=>instance.delete(`/uploads/${filename}`)
+
+
+//获取评价列表
+export const fetchRatings=(payload)=>instance.get('/ratings',{params:payload})
+//删除评价
+export const deleteOneRating=(id)=>instance.delete(`/ratings/${id}`)
