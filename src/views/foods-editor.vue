@@ -150,16 +150,20 @@ export default {
         this.$message.error("请输入名称");
         return;
       }
-      if (!info) {
-        this.$message.error("请输入商品信息");
-        return;
-      }
+      // if (!info) {
+      //   this.$message.error("请输入商品信息");
+      //   return;
+      // }
       //   if (!description) {
       //     this.$message.error("请输入商品描述");
       //     return;
       //   }
       if (!menuID) {
         this.$message.error("请选择商品分类");
+        return;
+      }
+      if (!price) {
+        this.$message.error("请输入商品售价");
         return;
       }
       if (!image) {
