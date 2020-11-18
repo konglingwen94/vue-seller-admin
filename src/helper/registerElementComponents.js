@@ -1,6 +1,11 @@
 import {
+  Row,
+  Col,
   Dialog,
+  Progress,
+  Rate,
   Tag,
+  Card,
   Breadcrumb,
   BreadcrumbItem,
   Menu,
@@ -33,7 +38,11 @@ import {
 export default (Vue) => {
   Vue.prototype.$message = Message;
   Vue.prototype.$confirm = MessageBox.confirm;
+  Vue.use(Row);
+  Vue.use(Col);
   Vue.use(PageHeader);
+  Vue.use(Rate);
+  Vue.use(Progress);
   Vue.use(Pagination);
   Vue.use(InputNumber);
   Vue.use(Dropdown);
@@ -59,6 +68,7 @@ export default (Vue) => {
   Vue.use(MenuItemGroup);
   Vue.use(Menu);
   Vue.use(Tag);
+  Vue.use(Card);
   Vue.use(Dialog);
   Vue.use(Submenu);
 };

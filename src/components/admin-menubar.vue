@@ -15,10 +15,10 @@
           <span slot="title">店铺管理</span>
         </template>
         <el-menu-item index="/seller/setting">
-          <i class="el-icon-s-data"></i>配送设置
+          <i class="el-icon-s-data"></i>店铺设置
         </el-menu-item>
         <el-menu-item index="/seller/description">
-          <i class="el-icon-s-data"></i>店铺信息
+          <i class="el-icon-s-data"></i>店铺统计
         </el-menu-item>
       </el-submenu>
 
