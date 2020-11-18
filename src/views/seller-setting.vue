@@ -16,7 +16,7 @@
         <el-input
           class="input-new-tag"
           v-if="inputVisible"
-          v-model="inputValue"
+          v-model.trim="inputValue"
           ref="saveTagInput"
           size="small"
           @keyup.enter.native="handleInputConfirm"
@@ -38,7 +38,7 @@
         <el-input-number :precision="1" :min="0" v-model="data.minPrice"></el-input-number>
       </el-form-item>
       <el-form-item label="配送费">
-        <el-input-number :precision="1" :min="0" v-model="data.delivieryPrice"></el-input-number>
+        <el-input-number :precision="1" :min="0" v-model="data.deliveryPrice"></el-input-number>
       </el-form-item>
       <el-form-item label="商家实景">
         <el-upload
@@ -107,7 +107,20 @@ export default {
       if (!bulletin) {
         return this.$message.error("请输入店铺公告");
       }
+      if (
+        !infos.every(item => {
+          return !!item.trim();
+        })
+      ) {
+        return this.$message.error("请输入商家信息");
+      }
 
+      if (!deliveryPrice) {
+        return this.$message.error("请输入配送费");
+      }
+      if (!minPrice) {
+        return this.$message.error("请输入起送价");
+      }
       if (supports.length) {
         supports = supports.map(item => ({
           type: item.type,
@@ -141,10 +154,10 @@ export default {
       const targetUrl =
         file.response && file.response.path ? file.response.path : file.url;
       const filename = targetUrl.split("/").pop();
-          pics.splice(
-            pics.findIndex(item => item === targetUrl),
-            1
-          );
+      pics.splice(
+        pics.findIndex(item => item === targetUrl),
+        1
+      );
       deleteUploadedFile(filename)
         .then(() => {
           pics.splice(
