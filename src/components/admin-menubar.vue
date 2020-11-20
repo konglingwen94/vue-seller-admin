@@ -17,7 +17,7 @@
         <el-menu-item index="/seller/setting">
           <i class="el-icon-s-data"></i>店铺设置
         </el-menu-item>
-        <el-menu-item index="/seller/description">
+        <el-menu-item index="/seller/dashboard">
           <i class="el-icon-s-data"></i>店铺统计
         </el-menu-item>
       </el-submenu>

@@ -16,7 +16,7 @@
               </div>
               <div class="dashboard-header__card--text">
                 <div class="label">销售额</div>
-                <div class="number">{{data.sellCount}}</div>
+                <div class="number">{{ data.sellCount }}</div>
               </div>
             </div>
           </el-card>
@@ -35,7 +35,7 @@
               </div>
               <div class="dashboard-header__card--text">
                 <div class="label">销量</div>
-                <div class="number">{{data.sellCount}}</div>
+                <div class="number">{{ data.sellCount }}</div>
               </div>
             </div>
           </el-card>
@@ -54,7 +54,7 @@
               </div>
               <div class="dashboard-header__card--text">
                 <div class="label">商品数</div>
-                <div class="number">{{data.sellCount}}</div>
+                <div class="number">{{ data.sellCount }}</div>
               </div>
             </div>
           </el-card>
@@ -87,7 +87,11 @@
               </div>
               <div class="right">
                 <el-progress
-                  :format="(value)=>{return `高于周边商家${value}%`}"
+                  :format="
+                    (value) => {
+                      return `高于周边商家${value}%`;
+                    }
+                  "
                   :width="140"
                   type="circle"
                   :percentage="data.rankRate"
@@ -98,7 +102,9 @@
         </el-col>
 
         <el-col :span="12">
-          <el-card header="商品排行榜"></el-card>
+          <el-card header="商品排行榜">
+            <ve-histogram :data="chartData"></ve-histogram>
+          </el-card>
         </el-col>
       </el-row>
     </div>
@@ -111,18 +117,30 @@ export default {
   name: "page-seller",
   data() {
     return {
-      data: {}
+      chartData: {
+        columns: ["日期", "访问用户", "下单用户", "下单率"],
+        rows: [
+          { 日期: "1/1", 访问用户: 1393, 下单用户: 1093, 下单率: 0.32 },
+          { 日期: "1/2", 访问用户: 3530, 下单用户: 3230, 下单率: 0.26 },
+          { 日期: "1/3", 访问用户: 2923, 下单用户: 2623, 下单率: 0.76 },
+          { 日期: "1/4", 访问用户: 1723, 下单用户: 1423, 下单率: 0.49 },
+          { 日期: "1/5", 访问用户: 3792, 下单用户: 3492, 下单率: 0.323 },
+          { 日期: "1/6", 访问用户: 4593, 下单用户: 4293, 下单率: 0.78 },
+        ],
+      },
+
+      data: {},
     };
   },
   created() {
     fetchSeller()
-      .then(res => {
+      .then((res) => {
         this.data = res;
       })
-      .catch(err => {
+      .catch((err) => {
         this.$message.error(err.message);
       });
-  }
+  },
 };
 </script>
 
