@@ -1,25 +1,13 @@
 <template>
   <div class="admin-menubar">
-    <el-menu
-      :default-active="$route.path"
-      class="el-menu-vertical-demo"
-      router
-      @select="handleSelect"
-      @open="handleOpen"
-      @close="handleClose"
-      :collapse="isCollapse"
-    >
+    <el-menu :default-active="$route.path" class="el-menu-vertical-demo" router :collapse="isCollapse">
       <el-submenu index="/seller">
         <template slot="title">
           <i class="el-icon-eleme"></i>
           <span slot="title">店铺管理</span>
         </template>
-        <el-menu-item index="/seller/setting">
-          <i class="el-icon-s-data"></i>店铺设置
-        </el-menu-item>
-        <el-menu-item index="/seller/dashboard">
-          <i class="el-icon-s-data"></i>店铺统计
-        </el-menu-item>
+        <el-menu-item index="/seller/setting"> <i class="el-icon-s-data"></i>店铺设置 </el-menu-item>
+        <el-menu-item index="/seller/dashboard"> <i class="el-icon-s-data"></i>店铺统计 </el-menu-item>
       </el-submenu>
 
       <el-submenu index="/1">
@@ -51,14 +39,14 @@
       </el-menu-item>
     </el-menu>
   </div>
-</template> 
+</template>
 
 <script>
 export default {
   name: "admin-menubar",
   data() {
     return {
-      isCollapse: false
+      isCollapse: false,
     };
   },
   created() {
@@ -66,17 +54,6 @@ export default {
       this.isCollapse = !this.isCollapse;
     });
   },
-  methods: {
-    handleSelect(index, indexPath) {
-      console.log(index, indexPath);
-    },
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
-    }
-  }
 };
 </script>
 
