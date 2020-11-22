@@ -8,7 +8,8 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home,
+    redirect:'/seller/dashboard'
+    // component: Home,
   },
   {
     path: "/foods-catefory",
@@ -52,6 +53,10 @@ const routes = [
 
     component: () => import(/* webpackChunkName: "seller-setting" */ "../views/seller-setting.vue"),
   },
+  {
+    path:'*',
+    redirect:'/seller/dashboard'
+  }
 ];
 
 const router = new VueRouter({
