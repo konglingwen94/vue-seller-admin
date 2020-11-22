@@ -2,7 +2,9 @@
   <div id="admin-header">
     <div class="left">
       <div class="menuToggle">
-        <span class="menuToggle__icon" @click="$root.$emit('menu-toggle')">切换菜单</span>
+        <span class="menuToggle__icon" @click="setAsideMenuCollapse(!state.asideMenuCollapse)">
+          <i :class="`el-icon-s-${state.asideMenuCollapse ? 'unfold' : 'fold'}`"></i>
+        </span>
       </div>
       <div>
         <el-breadcrumb separator="/">
@@ -19,8 +21,19 @@
   </div>
 </template>
 <script>
+import store from "@/store";
+ 
 export default {
-  name: "admin-header"
+  name: "admin-header",
+  data() {
+    return {
+      state: store.state,
+    };
+  },
+  methods: {
+    setAsideMenuCollapse: store.setAsideMenuCollapse,
+  },
+  
 };
 </script>
 <style lang="less" scoped>
@@ -39,6 +52,5 @@ export default {
   align-items: center;
   margin-right: 11px;
   cursor: pointer;
-   
 }
 </style>

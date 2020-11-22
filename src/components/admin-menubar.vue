@@ -1,6 +1,11 @@
 <template>
   <div class="admin-menubar">
-    <el-menu :default-active="$route.path" class="el-menu-vertical-demo" router :collapse="isCollapse">
+    <el-menu
+      :default-active="$route.path"
+      class="el-menu-vertical-demo"
+      router
+      :collapse="state.asideMenuCollapse"
+    >
       <el-submenu index="/seller">
         <template slot="title">
           <i class="el-icon-platform-eleme"></i>
@@ -42,17 +47,13 @@
 </template>
 
 <script>
+import { state } from "@/store";
 export default {
   name: "admin-menubar",
   data() {
     return {
-      isCollapse: false,
+      state,
     };
-  },
-  created() {
-    this.$root.$on("menu-toggle", () => {
-      this.isCollapse = !this.isCollapse;
-    });
   },
 };
 </script>
