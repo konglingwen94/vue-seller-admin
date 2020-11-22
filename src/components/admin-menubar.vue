@@ -25,24 +25,24 @@
       <el-submenu index="/1">
         <template slot="title">
           <i class="el-icon-s-management"></i>
-          <span slot="title">食品管理</span>
+          <span slot="title">商品管理</span>
         </template>
         <el-menu-item index="/foods-list">
           <i class="el-icon-s-data"></i>
-          食品列表
+          商品列表
         </el-menu-item>
         <el-menu-item index="/foods/add">
           <i class="el-icon-circle-plus"></i>
-          添加食品
+          添加商品
         </el-menu-item>
       </el-submenu>
       <el-menu-item index="/foods-catefory">
         <i class="el-icon-menu"></i>
-        <span slot="title">菜单分类</span>
+        <span slot="title">商品分类</span>
       </el-menu-item>
       <el-menu-item index="/ratings">
-        <i class="el-icon-document"></i>
-        <span slot="title">店铺评价</span>
+        <i class="el-icon-s-comment"></i>
+        <span slot="title">商品评价</span>
       </el-menu-item>
 
       <el-menu-item index="/4">
