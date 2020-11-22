@@ -3,10 +3,10 @@
     <el-menu :default-active="$route.path" class="el-menu-vertical-demo" router :collapse="isCollapse">
       <el-submenu index="/seller">
         <template slot="title">
-          <i class="el-icon-eleme"></i>
+          <i class="el-icon-platform-eleme"></i>
           <span slot="title">店铺管理</span>
         </template>
-        <el-menu-item index="/seller/setting"> <i class="el-icon-s-data"></i>店铺设置 </el-menu-item>
+        <el-menu-item index="/seller/setting"> <i class="el-icon-s-operation"></i>店铺设置 </el-menu-item>
         <el-menu-item index="/seller/dashboard"> <i class="el-icon-s-data"></i>店铺统计 </el-menu-item>
       </el-submenu>
 
@@ -26,11 +26,11 @@
       </el-submenu>
       <el-menu-item index="/foods-catefory">
         <i class="el-icon-menu"></i>
-        <span slot="title">商品分类</span>
+        <span slot="title">分类管理</span>
       </el-menu-item>
       <el-menu-item index="/ratings">
         <i class="el-icon-s-comment"></i>
-        <span slot="title">商品评价</span>
+        <span slot="title">评价管理</span>
       </el-menu-item>
 
       <el-menu-item index="/4">
