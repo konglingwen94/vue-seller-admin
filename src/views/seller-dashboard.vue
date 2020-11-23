@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard">
-    <!-- <pre>{{data}}</pre> -->
+    <!-- <pre>{{seller}}</pre> -->
     <div class="dashboard-header dashboard-item">
       <el-row :gutter="30">
         <el-col :span="8">
@@ -16,7 +16,7 @@
               </div>
               <div class="dashboard-header__card--text">
                 <div class="label">销售额</div>
-                <div class="number">{{ data.sellCount }}</div>
+                <div class="number">{{ seller.sellCount }}</div>
               </div>
             </div>
           </el-card>
@@ -35,7 +35,7 @@
               </div>
               <div class="dashboard-header__card--text">
                 <div class="label">销量</div>
-                <div class="number">{{ data.sellCount }}</div>
+                <div class="number">{{ seller.sellCount }}</div>
               </div>
             </div>
           </el-card>
@@ -54,7 +54,7 @@
               </div>
               <div class="dashboard-header__card--text">
                 <div class="label">商品数</div>
-                <div class="number">{{ data.sellCount }}</div>
+                <div class="number">{{ seller.sellCount }}</div>
               </div>
             </div>
           </el-card>
@@ -71,18 +71,18 @@
                 <div class="seller-rating__item">
                   <label class="seller-rating__item--label">综合评分</label>
 
-                  <el-rate v-model="data.score" disabled show-score text-color="#ff9900"></el-rate>
+                  <el-rate v-model="seller.score" disabled show-score text-color="#ff9900"></el-rate>
                 </div>
 
                 <div class="seller-rating__item">
                   <label class="seller-rating__item--label">服务态度</label>
 
-                  <el-rate v-model="data.serviceScore" disabled show-score text-color="#ff9900"></el-rate>
+                  <el-rate v-model="seller.serviceScore" disabled show-score text-color="#ff9900"></el-rate>
                 </div>
                 <div class="seller-rating__item">
                   <label class="seller-rating__item--label">食品得分</label>
 
-                  <el-rate v-model="data.foodScore" disabled show-score text-color="#ff9900"></el-rate>
+                  <el-rate v-model="seller.foodScore" disabled show-score text-color="#ff9900"></el-rate>
                 </div>
               </div>
               <div class="right">
@@ -94,7 +94,7 @@
                   "
                   :width="140"
                   type="circle"
-                  :percentage="data.rankRate"
+                  :percentage="seller.rankRate"
                 ></el-progress>
               </div>
             </div>
@@ -107,12 +107,12 @@
               <el-row type="flex" justify="space-between">
                 <el-col :span="4">商品统计</el-col>
                 <el-col :span="4">
-                  <el-select clearable placeholder="选择排序" v-model="foodChartOptions.foodsChartOpt.sort">
+                  <el-select   placeholder="选择排序" v-model="foodChartOptions.payload.sort">
                     <el-option
                       :key="item.value"
                       :label="item.label"
                       :value="item.value"
-                      v-for="item in foodChartOptions.foodsChartOrderOptions"
+                      v-for="item in foodChartOptions.sortOptions"
                     >
                     </el-option>
                   </el-select>
@@ -121,6 +121,7 @@
             </div>
 
             <ve-histogram
+              :extend="extend"
               :settings="chartSettings"
               :data="foodChartData"
               :data-empty="!foodChartData.rows.length"
@@ -140,6 +141,15 @@ import "v-charts/lib/style.css";
 export default {
   name: "page-seller",
   data() {
+    const foodChartDataOrder = {
+      label: "sellCount",
+      order: "asc",
+    };
+    this.extend = {
+      series: {
+        label: { show: true, position: "top" },
+      },
+    };
     this.chartSettings = {
       axisSite: { right: ["highRating"] },
       yAxisType: ["KMB", "percent"],
@@ -150,19 +160,22 @@ export default {
         ratingCount: "评 价数",
         highRating: "好评率",
       },
-      dataOrder: {
-        label: "sellCount",
-        order: "asc",
-      },
+      dataOrder: foodChartDataOrder,
     };
     return {
       foodChartOptions: {
-        foodsChartOrderOptions: [
-          { value: "sale", label: "销量" },
+        // dataOrder:foodChartDataOrder,
+        sortOptions: [
+          { value: "sellCount", label: "销量" },
           { value: "ratingCount", label: "评价数" },
           { value: "highRating", label: "好评率" },
         ],
-        foodsChartOpt: { sort: "sale", count: 10 },
+        dataOrder: foodChartDataOrder,
+        payload: {
+          sort: "sellCount",
+
+          count: 10,
+        },
         loading: false,
       },
       foodChartData: {
@@ -177,11 +190,11 @@ export default {
         ],
       },
 
-      data: {},
+      seller: {},
     };
   },
   watch: {
-    "foodChartOptions.foodsChartOpt.sort": "updateFoodsChartData",
+    "foodChartOptions.payload.sort": "updateFoodsChartData",
   },
   created() {
     this.updateFoodsChartData().catch((err) => {
@@ -189,7 +202,7 @@ export default {
     });
     fetchSeller()
       .then((res) => {
-        this.data = res;
+        this.seller = res;
       })
       .catch((err) => {
         this.$message.error(err.message);
@@ -198,11 +211,15 @@ export default {
   methods: {
     updateFoodsChartData() {
       this.foodChartOptions.loading = true;
-      return fetchFoodsStatistic(this.foodChartOptions.foodsChartOpt)
+
+      const { dataOrder, payload } = this.foodChartOptions;
+
+      return fetchFoodsStatistic(payload)
         .then((res) => {
           this.foodChartOptions.loading = false;
+          dataOrder.label = payload.sort;
 
-          this.foodChartData.row = res.map((item) => {
+          this.foodChartData.rows = res.map((item) => {
             return {
               foodName: item.name,
               sellCount: item.sellCount,
