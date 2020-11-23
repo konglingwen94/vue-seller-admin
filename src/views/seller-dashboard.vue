@@ -101,9 +101,32 @@
           </el-card>
         </el-col>
 
-        <el-col :span="12">
-          <el-card header="商品排行榜">
-            <ve-histogram :data="chartData"></ve-histogram>
+        <el-col :span="24">
+          <el-card :header="`商品排行Top10`">
+            <div slot="header">
+              <el-row type="flex" justify="space-between">
+                <el-col :span="4">商品统计</el-col>
+                <el-col :span="4">
+                  <el-select clearable placeholder="选择排序" v-model="foodChartOptions.foodsChartOpt.sort">
+                    <el-option
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value"
+                      v-for="item in foodChartOptions.foodsChartOrderOptions"
+                    >
+                    </el-option>
+                  </el-select>
+                </el-col>
+              </el-row>
+            </div>
+
+            <ve-histogram
+              :settings="chartSettings"
+              :data="foodChartData"
+              :data-empty="!foodChartData.rows.length"
+              :loading="foodChartOptions.loading"
+            >
+            </ve-histogram>
           </el-card>
         </el-col>
       </el-row>
@@ -112,27 +135,58 @@
 </template>
 
 <script>
-import { fetchSeller } from "@/helper/request";
+import { fetchFoodsStatistic, fetchSeller } from "@/helper/request";
+import "v-charts/lib/style.css";
 export default {
   name: "page-seller",
   data() {
+    this.chartSettings = {
+      axisSite: { right: ["highRating"] },
+      yAxisType: ["KMB", "percent"],
+      yAxisName: ["数值", "好评率"],
+      showLine: ["highRating"],
+      labelMap: {
+        sellCount: "销量",
+        ratingCount: "评 价数",
+        highRating: "好评率",
+      },
+      dataOrder: {
+        label: "sellCount",
+        order: "asc",
+      },
+    };
     return {
-      chartData: {
-        columns: ["日期", "访问用户", "下单用户", "下单率"],
+      foodChartOptions: {
+        foodsChartOrderOptions: [
+          { value: "sale", label: "销量" },
+          { value: "ratingCount", label: "评价数" },
+          { value: "highRating", label: "好评率" },
+        ],
+        foodsChartOpt: { sort: "sale", count: 10 },
+        loading: false,
+      },
+      foodChartData: {
+        columns: ["foodName", "sellCount", "ratingCount", "highRating"],
         rows: [
-          { 日期: "1/1", 访问用户: 1393, 下单用户: 1093, 下单率: 0.32 },
-          { 日期: "1/2", 访问用户: 3530, 下单用户: 3230, 下单率: 0.26 },
-          { 日期: "1/3", 访问用户: 2923, 下单用户: 2623, 下单率: 0.76 },
-          { 日期: "1/4", 访问用户: 1723, 下单用户: 1423, 下单率: 0.49 },
-          { 日期: "1/5", 访问用户: 3792, 下单用户: 3492, 下单率: 0.323 },
-          { 日期: "1/6", 访问用户: 4593, 下单用户: 4293, 下单率: 0.78 },
+          { foodName: "八宝粥", sellCount: 1393, ratingCount: 1093, highRating: 0.32 },
+          { foodName: "油条", sellCount: 3530, ratingCount: 3230, highRating: 0.26 },
+          { foodName: "1/3", sellCount: 2923, ratingCount: 2623, highRating: 0.76 },
+          { foodName: "1/4", sellCount: 1723, ratingCount: 1423, highRating: 0.49 },
+          { foodName: "1/5", sellCount: 3792, ratingCount: 3492, highRating: 0.323 },
+          { foodName: "1/6", sellCount: 4593, ratingCount: 4293, highRating: 0.78 },
         ],
       },
 
       data: {},
     };
   },
+  watch: {
+    "foodChartOptions.foodsChartOpt.sort": "updateFoodsChartData",
+  },
   created() {
+    this.updateFoodsChartData().catch((err) => {
+      this.$message.error(err.message);
+    });
     fetchSeller()
       .then((res) => {
         this.data = res;
@@ -140,6 +194,30 @@ export default {
       .catch((err) => {
         this.$message.error(err.message);
       });
+  },
+  methods: {
+    updateFoodsChartData() {
+      this.foodChartOptions.loading = true;
+      return fetchFoodsStatistic(this.foodChartOptions.foodsChartOpt)
+        .then((res) => {
+          this.foodChartOptions.loading = false;
+
+          this.foodChartData.row = res.map((item) => {
+            return {
+              foodName: item.name,
+              sellCount: item.sellCount,
+              ratingCount: item.ratingCount,
+              highRating: item.highRating,
+            };
+          });
+        })
+        .catch((err) => {
+          this.foodChartOptions.loading = false;
+
+          this.$message.error(err.message);
+          return Promise.reject();
+        });
+    },
   },
 };
 </script>

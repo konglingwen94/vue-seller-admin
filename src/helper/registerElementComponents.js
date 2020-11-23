@@ -2,6 +2,7 @@ import {
   Row,
   Col,
   Dialog,
+  Radio,
   Progress,
   Rate,
   Tag,
@@ -58,6 +59,7 @@ export default (Vue) => {
   Vue.use(Table);
   Vue.use(TableColumn);
   Vue.use(Breadcrumb);
+  Vue.use(Radio);
   Vue.use(BreadcrumbItem);
   Vue.use(Button);
   Vue.use(Container);

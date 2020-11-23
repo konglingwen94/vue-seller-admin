@@ -60,4 +60,5 @@ export const deleteManyRatings = (payload) => instance.post(`/ratings`, payload)
 // 店铺管理
 
 export const fetchSeller = () => instance.get("/seller");
+export const fetchFoodsStatistic = (payload) => instance.get("/food-statistic", { params: payload });
 export const updateSeller = (payload) => instance.patch("/seller", payload);
