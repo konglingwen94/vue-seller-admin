@@ -107,7 +107,7 @@
               <el-row type="flex" justify="space-between">
                 <el-col :span="4">商品统计</el-col>
                 <el-col :span="4">
-                  <el-select   placeholder="选择排序" v-model="foodChartOptions.payload.sort">
+                  <el-select placeholder="选择排序" v-model="foodChartOptions.payload.sort">
                     <el-option
                       :key="item.value"
                       :label="item.label"
@@ -152,7 +152,7 @@ export default {
     };
     this.chartSettings = {
       axisSite: { right: ["highRating"] },
-      yAxisType: ["KMB", "percent"],
+      yAxisType: ["MB", "percent"],
       yAxisName: ["数值", "好评率"],
       showLine: ["highRating"],
       labelMap: {
@@ -164,11 +164,10 @@ export default {
     };
     return {
       foodChartOptions: {
-        // dataOrder:foodChartDataOrder,
         sortOptions: [
-          { value: "sellCount", label: "销量" },
-          { value: "ratingCount", label: "评价数" },
-          { value: "highRating", label: "好评率" },
+          { value: "sellCount", label: "按销量排序" },
+          { value: "ratingCount", label: "按评价数排序" },
+          { value: "highRating", label: "按好评率排序" },
         ],
         dataOrder: foodChartDataOrder,
         payload: {
@@ -194,7 +193,10 @@ export default {
     };
   },
   watch: {
-    "foodChartOptions.payload.sort": "updateFoodsChartData",
+    "foodChartOptions.payload": {
+      handler: "updateFoodsChartData",
+      deep: true,
+    },
   },
   created() {
     this.updateFoodsChartData().catch((err) => {
