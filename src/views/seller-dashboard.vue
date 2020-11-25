@@ -120,11 +120,13 @@
             </div>
 
             <ve-histogram
+              ref="foodChart"
               :extend="extend"
               :settings="chartSettings"
               :data="foodChartData"
               :data-empty="!foodChartData.rows.length"
               :loading="foodChartOptions.loading"
+              :xAxis="foodChartOptions.echartsOptions.xAxis"
             ></ve-histogram>
           </el-card>
         </el-col>
@@ -155,13 +157,20 @@ export default {
       showLine: ["highRating"],
       labelMap: {
         sellCount: "销量",
-        ratingCount: "评 价数",
+        ratingCount: "评价数",
         highRating: "好评率"
       },
       dataOrder: foodChartDataOrder
     };
     return {
       foodChartOptions: {
+        echartsOptions: {
+          xAxis: {
+            axisLabel: {
+              interval: 0
+            }
+          }
+        },
         sortOptions: [
           { value: "sellCount", label: "按销量排序" },
           { value: "ratingCount", label: "按评价数排序" },
@@ -177,80 +186,7 @@ export default {
       },
       foodChartData: {
         columns: ["foodName", "sellCount", "ratingCount", "highRating"],
-        rows: [
-          {
-            foodName: "八发生的范f'f宝粥",
-            sellCount: 1393,
-            ratingCount: 1093,
-            highRating: 0.32
-          },
-          {
-            foodName: "油发生的范f'f条",
-            sellCount: 3530,
-            ratingCount: 3230,
-            highRating: 0.26
-          },
-          {
-            foodName: "1发生的范f'f/3",
-            sellCount: 2923,
-            ratingCount: 2623,
-            highRating: 0.76
-          },
-          {
-            foodName: "1发生的范f'f/4",
-            sellCount: 1723,
-            ratingCount: 1423,
-            highRating: 0.49
-          },
-          {
-            foodName: "1发生的范f'f/5",
-            sellCount: 3792,
-            ratingCount: 3492,
-            highRating: 0.323
-          },
-          {
-            foodName: "1发生的范f'f/6",
-            sellCount: 4593,
-            ratingCount: 4293,
-            highRating: 0.78
-          },
-          {
-            foodName: "八发生的范f'f宝粥",
-            sellCount: 1393,
-            ratingCount: 1093,
-            highRating: 0.32
-          },
-          {
-            foodName: "油发生的范f'f条",
-            sellCount: 3530,
-            ratingCount: 3230,
-            highRating: 0.26
-          },
-          {
-            foodName: "1发生的范f'f/3",
-            sellCount: 2923,
-            ratingCount: 2623,
-            highRating: 0.76
-          },
-          {
-            foodName: "1发生的范f'f/4",
-            sellCount: 1723,
-            ratingCount: 1423,
-            highRating: 0.49
-          },
-          {
-            foodName: "1发生的范f'f/5",
-            sellCount: 3792,
-            ratingCount: 3492,
-            highRating: 0.323
-          },
-          {
-            foodName: "1发生的范f'f/6",
-            sellCount: 4593,
-            ratingCount: 4293,
-            highRating: 0.78
-          }
-        ]
+        rows: []
       },
 
       seller: {}
@@ -283,14 +219,16 @@ export default {
       return fetchFoodsStatistic(payload)
         .then(res => {
           this.foodChartOptions.loading = false;
+          // 更新图表数据排序为指定排序
           dataOrder.label = payload.sort;
-          const chartColumn = this.foodChartData.columns;
           // 排序图标顶部指示器
+          const chartColumn = this.foodChartData.columns;
           const swapIndex = chartColumn.findIndex(
             item => item === payload.sort
           );
           chartColumn.splice(swapIndex, 1, chartColumn[1]);
           chartColumn.splice(1, 1, payload.sort);
+
           this.foodChartData.rows = res.map(item => {
             return {
               foodName: item.name,
@@ -299,6 +237,11 @@ export default {
               highRating: item.highRating
             };
           });
+          // 设置x轴坐标label
+
+          this.foodChartOptions.echartsOptions.xAxis.data = res.map(
+            item => item.name
+          );
         })
         .catch(err => {
           this.foodChartOptions.loading = false;
