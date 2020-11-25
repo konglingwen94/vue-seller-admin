@@ -102,22 +102,21 @@
         </el-col>
 
         <el-col :span="24">
-          <el-card :header="`商品排行Top10`">
+          <el-card>
             <div slot="header">
-              <el-row type="flex" justify="space-between">
-                <el-col :span="4">商品统计</el-col>
-                <el-col :span="4">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <span>商品统计</span>
+                <span>
                   <el-select placeholder="选择排序" v-model="foodChartOptions.payload.sort">
                     <el-option
                       :key="item.value"
                       :label="item.label"
                       :value="item.value"
                       v-for="item in foodChartOptions.sortOptions"
-                    >
-                    </el-option>
+                    ></el-option>
                   </el-select>
-                </el-col>
-              </el-row>
+                </span>
+              </div>
             </div>
 
             <ve-histogram
@@ -126,8 +125,7 @@
               :data="foodChartData"
               :data-empty="!foodChartData.rows.length"
               :loading="foodChartOptions.loading"
-            >
-            </ve-histogram>
+            ></ve-histogram>
           </el-card>
         </el-col>
       </el-row>
@@ -143,12 +141,12 @@ export default {
   data() {
     const foodChartDataOrder = {
       label: "sellCount",
-      order: "asc",
+      order: "asc"
     };
     this.extend = {
       series: {
-        label: { show: true, position: "top" },
-      },
+        label: { show: true, position: "top" }
+      }
     };
     this.chartSettings = {
       axisSite: { right: ["highRating"] },
@@ -158,55 +156,121 @@ export default {
       labelMap: {
         sellCount: "销量",
         ratingCount: "评 价数",
-        highRating: "好评率",
+        highRating: "好评率"
       },
-      dataOrder: foodChartDataOrder,
+      dataOrder: foodChartDataOrder
     };
     return {
       foodChartOptions: {
         sortOptions: [
           { value: "sellCount", label: "按销量排序" },
           { value: "ratingCount", label: "按评价数排序" },
-          { value: "highRating", label: "按好评率排序" },
+          { value: "highRating", label: "按好评率排序" }
         ],
         dataOrder: foodChartDataOrder,
         payload: {
           sort: "sellCount",
 
-          count: 10,
+          count: 10
         },
-        loading: false,
+        loading: false
       },
       foodChartData: {
         columns: ["foodName", "sellCount", "ratingCount", "highRating"],
         rows: [
-          { foodName: "八宝粥", sellCount: 1393, ratingCount: 1093, highRating: 0.32 },
-          { foodName: "油条", sellCount: 3530, ratingCount: 3230, highRating: 0.26 },
-          { foodName: "1/3", sellCount: 2923, ratingCount: 2623, highRating: 0.76 },
-          { foodName: "1/4", sellCount: 1723, ratingCount: 1423, highRating: 0.49 },
-          { foodName: "1/5", sellCount: 3792, ratingCount: 3492, highRating: 0.323 },
-          { foodName: "1/6", sellCount: 4593, ratingCount: 4293, highRating: 0.78 },
-        ],
+          {
+            foodName: "八发生的范f'f宝粥",
+            sellCount: 1393,
+            ratingCount: 1093,
+            highRating: 0.32
+          },
+          {
+            foodName: "油发生的范f'f条",
+            sellCount: 3530,
+            ratingCount: 3230,
+            highRating: 0.26
+          },
+          {
+            foodName: "1发生的范f'f/3",
+            sellCount: 2923,
+            ratingCount: 2623,
+            highRating: 0.76
+          },
+          {
+            foodName: "1发生的范f'f/4",
+            sellCount: 1723,
+            ratingCount: 1423,
+            highRating: 0.49
+          },
+          {
+            foodName: "1发生的范f'f/5",
+            sellCount: 3792,
+            ratingCount: 3492,
+            highRating: 0.323
+          },
+          {
+            foodName: "1发生的范f'f/6",
+            sellCount: 4593,
+            ratingCount: 4293,
+            highRating: 0.78
+          },
+          {
+            foodName: "八发生的范f'f宝粥",
+            sellCount: 1393,
+            ratingCount: 1093,
+            highRating: 0.32
+          },
+          {
+            foodName: "油发生的范f'f条",
+            sellCount: 3530,
+            ratingCount: 3230,
+            highRating: 0.26
+          },
+          {
+            foodName: "1发生的范f'f/3",
+            sellCount: 2923,
+            ratingCount: 2623,
+            highRating: 0.76
+          },
+          {
+            foodName: "1发生的范f'f/4",
+            sellCount: 1723,
+            ratingCount: 1423,
+            highRating: 0.49
+          },
+          {
+            foodName: "1发生的范f'f/5",
+            sellCount: 3792,
+            ratingCount: 3492,
+            highRating: 0.323
+          },
+          {
+            foodName: "1发生的范f'f/6",
+            sellCount: 4593,
+            ratingCount: 4293,
+            highRating: 0.78
+          }
+        ]
       },
 
-      seller: {},
+      seller: {}
     };
   },
   watch: {
     "foodChartOptions.payload": {
       handler: "updateFoodsChartData",
-      deep: true,
-    },
+      deep: true
+    }
   },
   created() {
-    this.updateFoodsChartData().catch((err) => {
+    this.updateFoodsChartData().catch(err => {
       this.$message.error(err.message);
     });
     fetchSeller()
-      .then((res) => {
+      .then(res => {
         this.seller = res;
       })
-      .catch((err) => {
+      .catch(err => {
         this.$message.error(err.message);
       });
   },
@@ -217,27 +281,33 @@ export default {
       const { dataOrder, payload } = this.foodChartOptions;
 
       return fetchFoodsStatistic(payload)
-        .then((res) => {
+        .then(res => {
           this.foodChartOptions.loading = false;
           dataOrder.label = payload.sort;
-
-          this.foodChartData.rows = res.map((item) => {
+          const chartColumn = this.foodChartData.columns;
+          // 排序图标顶部指示器
+          const swapIndex = chartColumn.findIndex(
+            item => item === payload.sort
+          );
+          chartColumn.splice(swapIndex, 1, chartColumn[1]);
+          chartColumn.splice(1, 1, payload.sort);
+          this.foodChartData.rows = res.map(item => {
             return {
               foodName: item.name,
               sellCount: item.sellCount,
               ratingCount: item.ratingCount,
-              highRating: item.highRating,
+              highRating: item.highRating
             };
           });
         })
-        .catch((err) => {
+        .catch(err => {
           this.foodChartOptions.loading = false;
 
           this.$message.error(err.message);
-          return Promise.reject();
+          return Promise.reject(err);
         });
-    },
-  },
+    }
+  }
 };
 </script>
 
