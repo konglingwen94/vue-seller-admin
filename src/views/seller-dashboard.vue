@@ -165,9 +165,13 @@ export default {
     return {
       foodChartOptions: {
         echartsOptions: {
+          // yAxis: { type: "value", axisLine: { show: true }, show: true },
           xAxis: {
             axisLabel: {
-              interval: 0
+              margin: 19,
+              align: "center",
+              interval: 0,
+              rotate: 10
             }
           }
         },
