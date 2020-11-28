@@ -106,16 +106,31 @@
             <div slot="header">
               <div style="display:flex;justify-content:space-between;align-items:center;">
                 <span>商品统计</span>
-                <span>
-                  <el-select placeholder="选择排序" v-model="foodChartOptions.payload.sort">
-                    <el-option
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value"
-                      v-for="item in foodChartOptions.sortOptions"
-                    ></el-option>
-                  </el-select>
-                </span>
+                <div>
+                  <span style="margin-right:10px">
+                    <el-input-number
+                    placeholder="数据数"
+                      size="small"
+                      v-model="foodChartOptions.payload.count"
+                      :min="6"
+                      :max="13"
+                    ></el-input-number>
+                  </span>
+                  <span>
+                    <el-select
+                      size="small"
+                      placeholder="选择排序"
+                      v-model="foodChartOptions.payload.sort"
+                    >
+                      <el-option
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                        v-for="item in foodChartOptions.sortOptions"
+                      ></el-option>
+                    </el-select>
+                  </span>
+                </div>
               </div>
             </div>
 
