@@ -62,3 +62,7 @@ export const deleteManyRatings = (payload) => instance.post(`/ratings`, payload)
 export const fetchSeller = () => instance.get("/seller");
 export const fetchFoodsStatistic = (payload) => instance.get("/food-statistic", { params: payload });
 export const updateSeller = (payload) => instance.patch("/seller", payload);
+
+// 修改密码
+
+export const updatePassword = (payload) => instance.patch("/administrators/:id/edit", payload);
