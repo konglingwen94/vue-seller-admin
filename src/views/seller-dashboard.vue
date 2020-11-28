@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard">
-    <!-- <pre>{{seller}}</pre> -->
+  <!-- 店铺统计 -->
     <div class="dashboard-header dashboard-item">
       <el-row :gutter="30">
         <el-col :span="8">
@@ -63,89 +63,81 @@
     </div>
     <!-- 店铺评价 -->
     <div class="dashboard-item">
-      <el-row :gutter="50">
-        <el-col :span="12">
-          <el-card header="店铺评价">
-            <div class="seller-rating">
-              <div class="seller-rating__left">
-                <div class="seller-rating__item">
-                  <label class="seller-rating__item--label">综合评分</label>
+      <el-card header="店铺评价">
+        <div class="seller-rating">
+          <div class="seller-rating__left">
+            <div class="seller-rating__item">
+              <label class="seller-rating__item--label">综合评分</label>
 
-                  <el-rate v-model="seller.score" disabled show-score text-color="#ff9900"></el-rate>
-                </div>
+              <el-rate v-model="seller.score" disabled show-score text-color="#ff9900"></el-rate>
+            </div>
 
-                <div class="seller-rating__item">
-                  <label class="seller-rating__item--label">服务态度</label>
+            <div class="seller-rating__item">
+              <label class="seller-rating__item--label">服务态度</label>
 
-                  <el-rate v-model="seller.serviceScore" disabled show-score text-color="#ff9900"></el-rate>
-                </div>
-                <div class="seller-rating__item">
-                  <label class="seller-rating__item--label">食品得分</label>
+              <el-rate v-model="seller.serviceScore" disabled show-score text-color="#ff9900"></el-rate>
+            </div>
+            <div class="seller-rating__item">
+              <label class="seller-rating__item--label">食品得分</label>
 
-                  <el-rate v-model="seller.foodScore" disabled show-score text-color="#ff9900"></el-rate>
-                </div>
-              </div>
-              <div class="right">
-                <el-progress
-                  :format="
+              <el-rate v-model="seller.foodScore" disabled show-score text-color="#ff9900"></el-rate>
+            </div>
+          </div>
+          <div class="right">
+            <el-progress
+              :format="
                     (value) => {
                       return `高于周边商家${value}%`;
                     }
                   "
-                  :width="140"
-                  type="circle"
-                  :percentage="seller.rankRate"
-                ></el-progress>
-              </div>
+              :width="140"
+              type="circle"
+              :percentage="seller.rankRate"
+            ></el-progress>
+          </div>
+        </div>
+      </el-card>
+    </div>
+    <!-- 食品统计 -->
+    <div class="dashboard-item">
+      <el-card>
+        <div slot="header">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span>商品统计</span>
+            <div>
+              <span style="margin-right:10px">
+                <el-input-number
+                  placeholder="数据数"
+                  size="small"
+                  v-model="foodChartOptions.payload.count"
+                  :min="6"
+                  :max="13"
+                ></el-input-number>
+              </span>
+              <span>
+                <el-select size="small" placeholder="选择排序" v-model="foodChartOptions.payload.sort">
+                  <el-option
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                    v-for="item in foodChartOptions.sortOptions"
+                  ></el-option>
+                </el-select>
+              </span>
             </div>
-          </el-card>
-        </el-col>
+          </div>
+        </div>
 
-        <el-col :span="24">
-          <el-card>
-            <div slot="header">
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span>商品统计</span>
-                <div>
-                  <span style="margin-right:10px">
-                    <el-input-number
-                    placeholder="数据数"
-                      size="small"
-                      v-model="foodChartOptions.payload.count"
-                      :min="6"
-                      :max="13"
-                    ></el-input-number>
-                  </span>
-                  <span>
-                    <el-select
-                      size="small"
-                      placeholder="选择排序"
-                      v-model="foodChartOptions.payload.sort"
-                    >
-                      <el-option
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value"
-                        v-for="item in foodChartOptions.sortOptions"
-                      ></el-option>
-                    </el-select>
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <ve-histogram
-              ref="foodChart"
-              :extend="extend"
-              :settings="chartSettings"
-              :data="foodChartData"
-              :data-empty="!foodChartData.rows.length"
-              :loading="foodChartOptions.loading"
-              :xAxis="foodChartOptions.echartsOptions.xAxis"
-            ></ve-histogram>
-          </el-card>
-        </el-col>
-      </el-row>
+        <ve-histogram
+          ref="foodChart"
+          :extend="extend"
+          :settings="chartSettings"
+          :data="foodChartData"
+          :data-empty="!foodChartData.rows.length"
+          :loading="foodChartOptions.loading"
+          :xAxis="foodChartOptions.echartsOptions.xAxis"
+        ></ve-histogram>
+      </el-card>
     </div>
   </div>
 </template>
