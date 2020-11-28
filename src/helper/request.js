@@ -3,10 +3,18 @@ import axios from "axios";
 const instance = axios.create({
   baseURL: "/api/admin",
 });
-// console.log(instance);
+function getToken() {
+  var token = localStorage.getItem("token");
+  return { token };
+}
 
 instance.interceptors.request.use(
   (config) => {
+    const { token } = getToken();
+    if (token) {
+      config.headers["authorization"] = `Bearer ${token}`;
+    }
+
     return config;
   },
   (err) => {
@@ -65,4 +73,6 @@ export const updateSeller = (payload) => instance.patch("/seller", payload);
 
 // 修改密码
 
-export const updatePassword = (payload) => instance.patch("/administrators/:id/edit", payload);
+export const updatePassword = (payload) => instance.patch("/administrators/:id/change-password", payload);
+// 登录
+export const login = (payload) => instance.post("/administrators/login", payload);

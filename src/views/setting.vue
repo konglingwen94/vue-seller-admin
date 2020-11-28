@@ -1,31 +1,63 @@
 <template>
   <div class="setting">
-    <el-form label-suffix=": ">
-      <el-form-item label="原密码">
-        <el-input v-model="form.oldPassword" type="password"></el-input>
-      </el-form-item>
-      <el-form-item label="新密码">
-        <el-input v-model="form.newPassword" type="password"></el-input>
-      </el-form-item>
-      <el-form-item label="确认密码">
-        <el-input v-model="form.validatePassword" type="password"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="submit">提交</el-button>
-      </el-form-item>
-    </el-form>
+    <!-- 更改密码 -->
+    <div class="card-item">
+      <el-card header="更改密码">
+        <el-form label-suffix=": ">
+          <el-form-item label="原密码">
+            <el-input v-model="form.oldPassword" type="password"></el-input>
+          </el-form-item>
+          <el-form-item label="新密码">
+            <el-input v-model="form.newPassword" type="password"></el-input>
+          </el-form-item>
+          <el-form-item label="确认密码">
+            <el-input v-model="form.validatePassword" type="password"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="submitPass">确定</el-button>
+          </el-form-item>
+        </el-form>
+      </el-card>
+    </div>
+    <!-- 更改账户信息 -->
+    <div class="card-item">
+      <el-card header="更改账户信息">
+        <el-form>
+          <el-form-item label="用户名">
+            <el-input v-model="form.username"></el-input>
+          </el-form-item>
+          <el-form>
+            <el-button @click="submitAccount" type="primary">确定</el-button>
+          </el-form>
+        </el-form>
+      </el-card>
+    </div>
   </div>
 </template>
 
 <script>
-import {updatePassword} from '@/helper/request'
+import { updatePassword } from "@/helper/request";
 
 export default {
   data: () => ({
-    form: { oldPassword: "", newPassword: "", validatePassword: "" }
+    form: {
+      oldPassword: "",
+      newPassword: "",
+      validatePassword: "",
+      username: ""
+    }
   }),
+  created() {
+    try {
+      var account = JSON.parse(localStorage.get("admin"));
+    } catch (error) {
+      return;
+    }
+
+    this.form.username = account.username;
+  },
   methods: {
-    submit() {
+    submitPass() {
       const { oldPassword, newPassword, validatePassword } = this.form;
 
       if (!oldPassword) {
@@ -52,10 +84,24 @@ export default {
           this.$message.success("密码修改成功");
         })
         .catch(err => this.$message.error(err.message));
+    },
+    submitAccount() {
+      const { username } = this.form;
+      if (!username) {
+        return this.$message.error("用户名不能为空");
+      }
+
+      const payload = { username };
+      updateAccount(payload).then(() => {
+        this.$message.success("账户修改成功");
+      });
     }
   }
 };
 </script>
 
-<style>
+<style scoped>
+.card-item {
+  margin-bottom: 50px;
+}
 </style>
