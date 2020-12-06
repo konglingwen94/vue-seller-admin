@@ -1,4 +1,4 @@
-<template functional>
+<template >
   <div class="user">
     <router-view></router-view>
   </div>
