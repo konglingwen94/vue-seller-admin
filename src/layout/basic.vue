@@ -21,8 +21,20 @@ import AdminHeader from "@/components/admin-header";
 export default {
   components: {
     AdminMenubar,
-    AdminHeader
-  }
+    AdminHeader,
+  },
+
+  provide() {
+    try {
+      var account = JSON.parse(localStorage.getItem("adminInfo"));
+    } catch (error) {
+      return;
+    }
+     
+    return {
+      account 
+    };
+  },
 };
 </script>
 <style lang="less">

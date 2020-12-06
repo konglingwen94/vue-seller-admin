@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { updatePassword } from "@/helper/request";
+import { updatePassword, updateAccount } from "@/helper/request";
 
 export default {
   data: () => ({
@@ -44,18 +44,11 @@ export default {
       oldPassword: "",
       newPassword: "",
       validatePassword: "",
-      username: ""
-    }
+      username: "",
+    },
   }),
-  created() {
-    try {
-      var account = JSON.parse(localStorage.get("admin"));
-    } catch (error) {
-      return;
-    }
-
-    this.form.username = account.username;
-  },
+  inject:['account'],
+  
   methods: {
     submitPass() {
       const { oldPassword, newPassword, validatePassword } = this.form;
@@ -79,24 +72,26 @@ export default {
         return this.$message.error("确认密码错误");
       }
       const payload = { oldPassword, newPassword };
-      updatePassword(payload)
+      const id=this.account.id
+      updatePassword(id,payload)
         .then(() => {
           this.$message.success("密码修改成功");
         })
-        .catch(err => this.$message.error(err.message));
+        .catch((err) => this.$message.error(err.message));
     },
     submitAccount() {
       const { username } = this.form;
       if (!username) {
         return this.$message.error("用户名不能为空");
       }
-
       const payload = { username };
-      updateAccount(payload).then(() => {
+      const id = this.account.id;
+      updateAccount(id, payload).then(() => {
         this.$message.success("账户修改成功");
+         
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

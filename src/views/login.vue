@@ -16,12 +16,13 @@
 
 <script>
 import { login } from "@/helper/request";
+
 export default {
   data() {
     return {
       username: "",
       password: "",
-      loading: false
+      loading: false,
     };
   },
   methods: {
@@ -39,18 +40,20 @@ export default {
       const payload = { username, password };
 
       login(payload)
-        .then(res => {
+        .then((res) => {
           window.localStorage.setItem("token", res.token);
+           
+          window.localStorage.setItem("adminInfo", JSON.stringify(res.admin));
+           
           this.loading = false;
-            this.$router.push("/seller/dashboard");
+          this.$router.push("/seller/dashboard");
         })
-        .catch(err => {
+        .catch((err) => {
           this.loading = false;
         });
-    }
-  }
+    },
+  },
 };
 </script>
 
-<style>
-</style>
+<style></style>

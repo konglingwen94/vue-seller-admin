@@ -17,12 +17,21 @@
         </el-breadcrumb>
       </div>
     </div>
-    <div class="user">user</div>
+    <div class="user">
+      <el-dropdown >
+        <span  >{{account.username}} <i class="el-icon-arrow-down el-icon--right"></i> </span>
+        <el-dropdown-menu slot="dropdown">
+           
+           
+          <el-dropdown-item @click.native="logout"  >退出</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
+    </div>
   </div>
 </template>
 <script>
 import store from "@/store";
- 
+
 export default {
   name: "admin-header",
   data() {
@@ -30,10 +39,14 @@ export default {
       state: store.state,
     };
   },
+  inject:['account'],
   methods: {
     setAsideMenuCollapse: store.setAsideMenuCollapse,
+    logout(){
+      window.localStorage.clear()
+      window.location.href="/auth/login"
+    }
   },
-  
 };
 </script>
 <style lang="less" scoped>
