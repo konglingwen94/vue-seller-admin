@@ -37,9 +37,12 @@ export default {
   data() {
     return {
       state: store.state,
+      account:this._account
     };
   },
-  inject:['account'],
+  inject:{
+    _account:'account'
+  },
   methods: {
     setAsideMenuCollapse: store.setAsideMenuCollapse,
     logout(){

@@ -47,8 +47,8 @@ export default {
       username: "",
     },
   }),
-  inject:['account'],
-  
+  inject: ["account"],
+
   methods: {
     submitPass() {
       const { oldPassword, newPassword, validatePassword } = this.form;
@@ -72,8 +72,8 @@ export default {
         return this.$message.error("确认密码错误");
       }
       const payload = { oldPassword, newPassword };
-      const id=this.account.id
-      updatePassword(id,payload)
+      const id = this.account.id;
+      updatePassword(id, payload)
         .then(() => {
           this.$message.success("密码修改成功");
         })
@@ -88,7 +88,13 @@ export default {
       const id = this.account.id;
       updateAccount(id, payload).then(() => {
         this.$message.success("账户修改成功");
-         
+        try {
+          var adminInfo = JSON.parse(localStorage.getItem("adminInfo"));
+        } catch (error) {
+          return (adminInfo = {});
+        }
+        Object.assign(this.account, payload);
+        localStorage.setItem("adminInfo", JSON.stringify(Object.assign(adminInfo, payload)));
       });
     },
   },
