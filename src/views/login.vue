@@ -1,16 +1,31 @@
 <template>
   <div class="login" v-loading="loading">
-    <el-form>
-      <el-form-item label="用户名">
-        <el-input v-model="username"></el-input>
-      </el-form-item>
-      <el-form-item label="密码">
-        <el-input v-model="password" type="password"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="submit">登录</el-button>
-      </el-form-item>
-    </el-form>
+    <div class="login-form-wrapper">
+      <el-dialog
+        :modal-append-to-body="false"
+        title="管理员登录"
+        center
+        :visible="dialogVisible"
+        :show-close="false"
+      >
+        <el-form>
+          <el-form-item label="用户名">
+            <el-input v-model="username"></el-input>
+          </el-form-item>
+          <el-form-item label="密码">
+            <el-input v-model="password" type="password"></el-input>
+          </el-form-item>
+           
+          <el-button
+            size="medium"
+            style="width:100%;margin-top:10px;padding:15px;font-size:18px"
+            type="primary"
+            @click="submit"
+            >登录</el-button
+          >
+        </el-form>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
@@ -19,12 +34,17 @@ import { login } from "@/helper/request";
 
 export default {
   data() {
+    setTimeout(() => {
+      this.dialogVisible = true;
+    }, 200);
     return {
       username: "",
       password: "",
       loading: false,
+      dialogVisible: false,
     };
   },
+
   methods: {
     submit() {
       const { username, password } = this;
@@ -42,14 +62,14 @@ export default {
       login(payload)
         .then((res) => {
           window.localStorage.setItem("token", res.token);
-           
+
           window.localStorage.setItem("adminInfo", JSON.stringify(res.admin));
-           
+
           this.loading = false;
           this.$router.push("/seller/dashboard");
         })
         .catch((err) => {
-          this.$message.error(err.message)
+          this.$message.error(err.message);
           this.loading = false;
         });
     },
@@ -57,4 +77,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.login-form-wrapper .v-modal {
+  background-color: #b3c0d1;
+}
+</style>
