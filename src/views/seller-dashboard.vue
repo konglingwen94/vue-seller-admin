@@ -16,7 +16,7 @@
               </div>
               <div class="dashboard-header__card--text">
                 <div class="label">销售额</div>
-                <div class="number">{{ seller.sellCount }}</div>
+                <div class="number">{{ seller.totalPrice }}</div>
               </div>
             </div>
           </el-card>
@@ -35,7 +35,7 @@
               </div>
               <div class="dashboard-header__card--text">
                 <div class="label">销量</div>
-                <div class="number">{{ seller.sellCount }}</div>
+                <div class="number">{{ seller.totalSellCount }}</div>
               </div>
             </div>
           </el-card>
@@ -54,7 +54,7 @@
               </div>
               <div class="dashboard-header__card--text">
                 <div class="label">商品数</div>
-                <div class="number">{{ seller.sellCount }}</div>
+                <div class="number">{{ seller.totalFoodCount }}</div>
               </div>
             </div>
           </el-card>
