@@ -49,6 +49,7 @@ export default {
           this.$router.push("/seller/dashboard");
         })
         .catch((err) => {
+          this.$message.error(err.message)
           this.loading = false;
         });
     },
