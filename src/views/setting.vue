@@ -5,13 +5,13 @@
       <el-card header="更改密码">
         <el-form label-suffix=": ">
           <el-form-item label="原密码">
-            <el-input v-model="form.oldPassword" type="password"></el-input>
+            <el-input v-model="form.oldPassword"  show-password></el-input>
           </el-form-item>
           <el-form-item label="新密码">
-            <el-input v-model="form.newPassword" type="password"></el-input>
+            <el-input v-model="form.newPassword" show-password></el-input>
           </el-form-item>
           <el-form-item label="确认密码">
-            <el-input v-model="form.validatePassword" type="password"></el-input>
+            <el-input v-model="form.validatePassword" show-password></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="submitPass">确定</el-button>
