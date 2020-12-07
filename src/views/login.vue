@@ -1,5 +1,5 @@
 <template>
-  <div class="login" v-loading="loading">
+  <div class="login">
     <div class="login-form-wrapper">
       <el-dialog
         :modal-append-to-body="false"
@@ -15,12 +15,13 @@
           <el-form-item label="密码">
             <el-input v-model="password" type="password"></el-input>
           </el-form-item>
-           
+
           <el-button
             size="medium"
             style="width:100%;margin-top:10px;padding:15px;font-size:18px"
             type="primary"
             @click="submit"
+            :loading="loading"
             >登录</el-button
           >
         </el-form>
