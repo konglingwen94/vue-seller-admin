@@ -213,7 +213,7 @@ export default {
           this.deleteUploadedFiles.push(file);
         }
       }
-      debugger;
+      
       this.uploadFiles = this.uploadFiles || [];
       let delIndex = this.uploadFiles.findIndex(item => item === file.raw);
       if (delIndex > -1) {
@@ -228,7 +228,7 @@ export default {
       this.uploadFiles.push(file.raw);
     },
     uploadSuccess(res, file) {
-      // debugger
+     
       if (!this.data.pics.includes(res.path)) {
         this.data.pics.push(res.path);
       }
