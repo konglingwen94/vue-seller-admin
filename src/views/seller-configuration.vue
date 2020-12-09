@@ -174,6 +174,8 @@ export default {
 
           return instance.post(uploadUrl, formData, config).then(res => {
             return res.path;
+          }).catch(err=>{
+            this.$message.error(err.message)
           });
         })
       );
