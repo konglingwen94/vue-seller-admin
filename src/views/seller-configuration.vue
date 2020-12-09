@@ -176,6 +176,7 @@ export default {
             return res.path;
           }).catch(err=>{
             this.$message.error(err.message)
+            return Promise.reject(err)
           });
         })
       );
