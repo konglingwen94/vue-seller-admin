@@ -1,6 +1,5 @@
 <template>
   <div class="seller" v-loading="loading">
-    <!-- <pre>{{data}}</pre> -->
     <el-form label-width="100px" label-suffix=" :" :model="data">
       <el-form-item label="店铺名称">
         <el-input v-model="data.name"></el-input>
@@ -42,11 +41,17 @@
       </el-form-item>
       <el-form-item label="商家实景">
         <el-upload
+           
           :fileList="fileList"
-          :on-success="uploadSuccess"
-          :on-remove="uploadRemove"
+          
+          :on-change="uploadChange"
+          
+          :on-exceed="()=>$message.error('商家实景最多可上传10张图片')"
+          :auto-upload="false"
           action="/api/admin/uploads"
+          :limit="10"
           multiple
+          
           list-type="picture-card"
         >点击上传图片</el-upload>
       </el-form-item>
@@ -61,11 +66,13 @@
 import {
   fetchSeller,
   updateSeller,
-  deleteUploadedFile
+  deleteUploadedFile,
+  instance
 } from "@/helper/request";
 export default {
   name: "page-seller",
   data() {
+    
     return {
       loading: false,
       data: {},
@@ -73,6 +80,12 @@ export default {
       inputVisible: false,
       inputValue: ""
     };
+  },
+  computed: {
+    getToken() {
+      var token = localStorage.getItem("token");
+      return `Bearer ${token}`;
+    }
   },
   created() {
     fetchSeller()
@@ -90,7 +103,7 @@ export default {
       });
   },
   methods: {
-    submit() {
+    async submit() {
       let {
         name,
         supports,
@@ -98,7 +111,8 @@ export default {
         deliveryPrice,
         minPrice,
         pics,
-        infos
+        infos,
+        _id
       } = this.data;
 
       if (!name) {
@@ -127,7 +141,26 @@ export default {
           description: item.description
         }));
       }
+      
+      pics = await Promise.all(
+        (this.uploadFiles || []).map(file => {
+          let formData = new FormData();
 
+          formData.append("file", file);
+          // debugger;
+          let config = {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          };
+          const uploadUrl = "/uploads";
+
+          return instance.post(uploadUrl, formData, config).then(res => {
+            return res.path
+          });
+        })
+      );
+ 
       const payload = {
         name,
         supports,
@@ -139,16 +172,18 @@ export default {
       };
 
       this.loading = true;
-      updateSeller(payload)
+      updateSeller(_id, payload)
         .then(() => {
           this.$message.success("店铺信息更新成功");
           this.loading = false;
+          this.$router.push('/')
         })
         .catch(err => {
           this.loading = false;
           this.$message.error(err.message);
         });
     },
+    upload() {},
     uploadRemove(file) {
       const pics = this.data.pics;
       const targetUrl =
@@ -160,14 +195,22 @@ export default {
       );
       deleteUploadedFile(filename)
         .then(() => {
-          pics.splice(
-            pics.findIndex(item => item === targetUrl),
-            1
-          );
+          // pics.splice(
+          //   pics.findIndex(item => item === targetUrl),
+          //   1
+          // );
         })
         .catch(err => this.$message.error(err.message));
     },
+    uploadChange(file, fileList) {
+      if (!this.uploadFiles) {
+        this.uploadFiles = [];
+      }
+      this.uploadFiles.push(file.raw);
+
+    },
     uploadSuccess(res, file) {
+      // debugger
       if (!this.data.pics.includes(res.path)) {
         this.data.pics.push(res.path);
       }

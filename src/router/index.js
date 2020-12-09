@@ -4,15 +4,15 @@ import VueRouter from "vue-router";
 Vue.use(VueRouter);
 
 const routes = [
-  // {
-  //   path: "",
-  //   name: "Home",
-  //   redirect: "seller/dashboard",
-  //   component: Home,
-  // },
   {
-    path: "foods-catefory",
-    name: "foods-catefory",
+    path: "/",
+    name: "dashboard",
+    redirect: "seller/dashboard",
+    
+  },
+  {
+    path: "foods-category",
+    name: "foods-category",
 
     component: () => import(/* webpackChunkName: "foods-category" */ "@/views/foods-category.vue"),
     meta: {

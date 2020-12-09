@@ -29,7 +29,7 @@
           添加商品
         </el-menu-item>
       </el-submenu>
-      <el-menu-item index="/foods-catefory">
+      <el-menu-item index="/foods-category">
         <i class="el-icon-menu"></i>
         <span slot="title">分类管理</span>
       </el-menu-item>

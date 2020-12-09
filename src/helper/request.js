@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const instance = axios.create({
+export const instance = axios.create({
   baseURL: "/api/admin",
 });
 function getToken() {
@@ -69,7 +69,7 @@ export const deleteManyRatings = (payload) => instance.post(`/ratings`, payload)
 
 export const fetchSeller = () => instance.get("/seller");
 export const fetchFoodsStatistic = (payload) => instance.get("/food-statistic", { params: payload });
-export const updateSeller = (payload) => instance.patch("/seller", payload);
+export const updateSeller = (id,payload) => instance.patch(`/seller/${id}`, payload);
 
 // 修改密码
 
