@@ -41,17 +41,15 @@
       </el-form-item>
       <el-form-item label="商家实景">
         <el-upload
-           
           :fileList="fileList"
-          
           :on-change="uploadChange"
-          
+          :on-remove="uploadRemove"
           :on-exceed="()=>$message.error('商家实景最多可上传10张图片')"
           :auto-upload="false"
           action="/api/admin/uploads"
           :limit="10"
           multiple
-          
+          accept=".jpg, .png, .jpeg"
           list-type="picture-card"
         >点击上传图片</el-upload>
       </el-form-item>
@@ -72,7 +70,6 @@ import {
 export default {
   name: "page-seller",
   data() {
-    
     return {
       loading: false,
       data: {},
@@ -141,13 +138,33 @@ export default {
           description: item.description
         }));
       }
-      
-      pics = await Promise.all(
+
+      await Promise.all(
+        (this.deleteUploadedFiles || []).map(file => {
+          let delIndex = this.data.pics.findIndex(item => item === file.url);
+          if (delIndex > -1) {
+            const pics = this.data.pics;
+            const targetPic = pics[delIndex];
+            const filenamePathArr = targetPic.split("/");
+            const filename = filenamePathArr[filenamePathArr.length - 1];
+            if (filename) {
+              pics.splice(delIndex, 1);
+              return deleteUploadedFile(filename)
+                .then(() => {})
+                .catch(err => {
+                  this.$message.error(err.message);
+                });
+            }
+          }
+        })
+      );
+
+      const uploadPics = await Promise.all(
         (this.uploadFiles || []).map(file => {
           let formData = new FormData();
 
           formData.append("file", file);
-          // debugger;
+
           let config = {
             headers: {
               "Content-Type": "multipart/form-data"
@@ -156,11 +173,12 @@ export default {
           const uploadUrl = "/uploads";
 
           return instance.post(uploadUrl, formData, config).then(res => {
-            return res.path
+            return res.path;
           });
         })
       );
- 
+      pics.push(...uploadPics);
+
       const payload = {
         name,
         supports,
@@ -176,38 +194,35 @@ export default {
         .then(() => {
           this.$message.success("店铺信息更新成功");
           this.loading = false;
-          this.$router.push('/')
+          this.$router.push("/");
         })
         .catch(err => {
           this.loading = false;
           this.$message.error(err.message);
         });
     },
-    upload() {},
+
     uploadRemove(file) {
-      const pics = this.data.pics;
-      const targetUrl =
-        file.response && file.response.path ? file.response.path : file.url;
-      const filename = targetUrl.split("/").pop();
-      pics.splice(
-        pics.findIndex(item => item === targetUrl),
-        1
-      );
-      deleteUploadedFile(filename)
-        .then(() => {
-          // pics.splice(
-          //   pics.findIndex(item => item === targetUrl),
-          //   1
-          // );
-        })
-        .catch(err => this.$message.error(err.message));
+      this.deleteUploadedFiles = this.deleteUploadedFiles || [];
+
+      if (this.data.pics.includes(file.url)) {
+        if (!this.deleteUploadedFiles.includes(file)) {
+          this.deleteUploadedFiles.push(file);
+        }
+      }
+      debugger;
+      this.uploadFiles = this.uploadFiles || [];
+      let delIndex = this.uploadFiles.findIndex(item => item === file.raw);
+      if (delIndex > -1) {
+        this.uploadFiles.splice(delIndex, 1);
+      }
     },
     uploadChange(file, fileList) {
       if (!this.uploadFiles) {
         this.uploadFiles = [];
       }
-      this.uploadFiles.push(file.raw);
 
+      this.uploadFiles.push(file.raw);
     },
     uploadSuccess(res, file) {
       // debugger
