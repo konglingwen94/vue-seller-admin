@@ -24,14 +24,17 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   (res) => {
-    if (res.status === 403) {
-      window.location.href = "/admin/auth/login";
-    }
     return res.data;
   },
   (err) => {
-    if (err.response && err.response.data) {
-      return Promise.reject(err.response.data);
+    if (err.response) {
+      if (err.response.status === 403) {
+        window.location.href = "/admin/auth/login";
+      }
+      if (err.response.data) {
+        return Promise.reject(err.response.data);
+      }
+      return Promise.reject(err.response);
     }
     return Promise.reject(err);
   }

@@ -43,6 +43,7 @@ export default {
     handlerError(err) {
       this.$message.error(err.message);
       this.$emit("error");
+       
     },
     handlerSuccess(res, file, fileList) {
       const uploadFile = this.multipart
