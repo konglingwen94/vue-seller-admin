@@ -31,21 +31,9 @@
         <el-input-number :step="0.1" :min="0" v-model.number="form.price"></el-input-number>
       </el-form-item>
       <el-form-item label="缩略图">
-        <el-upload
-          list-type="picture"
-          accept=".jpg, .png, jpeg"
-          :on-success="handleUploadSuccess"
-          :on-error="
-            (err) => {
-              $message.error(err.message);
-            }
-          "
-          :on-remove="handleRemoveUpload"
-          action="/api/admin/uploads"
-          :file-list="fileList"
-        >
+        <uploader list-type="picture" ref="uploader" :file-list="fileList">
           <el-button>上传缩略图</el-button>
-        </el-upload>
+        </uploader>
       </el-form-item>
       <el-form-item>
         <el-button :loading="loading" @click="submit" type="primary">提交</el-button>
@@ -57,8 +45,7 @@
 import {
   fetchFoodsCategoryList,
   fetchOneFoods,
-  updateOneFoods,
-  deleteUploadedFile
+  updateOneFoods
 } from "@/helper/request";
 import { pick } from "@/helper/utils";
 
@@ -76,9 +63,14 @@ export default {
       menuID: ""
     },
     fileList: [],
+
     loading: false
   }),
   computed: {
+    getToken() {
+      const token = localStorage.getItem("token");
+      return `Bearer ${token}`;
+    },
     pageTitle() {
       return this.$route.params.id ? "更新商品" : "添加商品";
     }
@@ -113,32 +105,10 @@ export default {
     }
   },
   methods: {
-    handleUploadSuccess(file, res, fileList) {
-      this.form.image = file.path;
-      if (fileList.length > 1) {
-        this.deleteUploadedFile(fileList.shift());
-      }
-    },
-    handleRemoveUpload(file) {
-      this.form.image = "";
-      this.deleteUploadedFile(file);
-    },
-    deleteUploadedFile(file) {
-      let filename;
-
-      if (file.response) {
-        filename = file.response.path.split("/").pop();
-      } else if (file.url) {
-        filename = file.url.split("/").pop();
-      }
-      deleteUploadedFile(filename).catch(err => {
-        this.$message.error(err.message);
-      });
-    },
-    submit() {
-      const {
+    async submit() {
+      let {
         name,
-        image,
+
         info,
         description,
         oldPrice,
@@ -166,11 +136,17 @@ export default {
         this.$message.error("请输入商品售价");
         return;
       }
-      if (!image) {
+
+      const id = this.$route.params.id;
+
+      if (this.fileList.length === 0) {
         this.$message.error("请上传商品缩略图");
         return;
+      } else {
+        const file = this.fileList[0];
+        var image = (file.response && file.response.path) || file.url;
       }
-      const id = this.$route.params.id;
+
       const payload = {
         menuID,
         name,
@@ -180,6 +156,7 @@ export default {
         oldPrice,
         price
       };
+
       this.loading = true;
       updateOneFoods(id, payload)
         .then(res => {
