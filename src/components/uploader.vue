@@ -11,7 +11,7 @@
       :on-remove="handlerRemove"
       :file-list="fileList"
       :multiple="multipart"
-      :list-type="$attrs['list-type'] || picture-card"
+      :list-type="$attrs['list-type'] || 'picture-card'"
       accept=".jpg, .png, jpeg"
     >
       <slot>点击上传文件</slot>

@@ -49,21 +49,23 @@ import { pick } from "@/helper/utils";
 
 export default {
   name: "foods-editor",
-  data: () => ({
-    categoryOpts: [],
-    form: {
-      name: "",
-      oldPrice: 0,
-      price: 0,
-      image: "",
-      info: "",
-      description: "",
-      menuID: ""
-    },
-    fileList: [],
+  data() {
+    return {
+      categoryOpts: [],
+      form: {
+        name: "",
+        oldPrice: 0,
+        price: 0,
+        image: "",
+        info: "",
+        description: "",
+        menuID: this.$route.params.categoryID || ""
+      },
+      fileList: [],
 
-    loading: false
-  }),
+      loading: false
+    };
+  },
   computed: {
     getToken() {
       const token = localStorage.getItem("token");

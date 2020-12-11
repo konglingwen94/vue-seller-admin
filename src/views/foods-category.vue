@@ -1,21 +1,22 @@
 <template>
   <page-layout id="foods-category">
     <div slot="header">
-      <el-button @click="add"> 添加分类</el-button>
+      <el-button @click="add">添加分类</el-button>
     </div>
 
     <el-table border :data="dataList">
       <el-table-column label="名称" prop="name"></el-table-column>
       <el-table-column label="商品数量" prop="foodsCount"></el-table-column>
-      <el-table-column label="特价优惠">
+      <el-table-column label="活动类型">
         <template v-slot="{ row }">
           <span>{{ getType(row.type) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作">
+      <el-table-column width="350px" label="操作">
         <template v-slot="{ row }">
           <el-button @click="update(row._id, row)" type="primary">更新</el-button>
           <el-button @click="remove(row._id)" type="danger">删除</el-button>
+          <el-button @click="$router.push({name:'foods-add',params:{categoryID:row._id}})">添加商品</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -26,10 +27,14 @@
         <el-form-item label="名称">
           <el-input v-model="form.name"></el-input>
         </el-form-item>
-        <el-form-item label="优惠类型">
-          <el-select  v-model="formType" clearable placeholder="请选择优惠类型">
-            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
+        <el-form-item label="活动类型"> 
+          <el-select v-model="formType" clearable placeholder="请选择优惠类型">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
           </el-select>
         </el-form-item>
       </el-form>
@@ -44,7 +49,7 @@ import {
   fetchFoodsCategoryList,
   deleteFoodsCategory,
   createFoodsCategory,
-  updateFoodsCategory,
+  updateFoodsCategory
 } from "@/helper/request.js";
 import { pick } from "@/helper/utils.js";
 
@@ -57,13 +62,13 @@ export default {
         { value: 1, label: "折扣" },
         { value: 2, label: "特价" },
         { value: 3, label: "支持发票" },
-        { value: 4, label: "外卖保" },
+        { value: 4, label: "外卖保" }
       ],
       dialogVisible: false,
       form: { name: "", type: -1 },
       dataList: [],
       loading: false,
-      editingId: "",
+      editingId: ""
     };
   },
   computed: {
@@ -76,17 +81,17 @@ export default {
       },
       get() {
         return this.form.type === -1 ? "" : this.form.type;
-      },
-    },
+      }
+    }
   },
   created() {
     this.loading = true;
     fetchFoodsCategoryList()
-      .then((res) => {
+      .then(res => {
         this.dataList = res;
         this.loading = false;
       })
-      .catch((err) => {
+      .catch(err => {
         this.loading = false;
       });
   },
@@ -103,7 +108,6 @@ export default {
           return "支持发票";
         case 4:
           return "外卖保";
-         
       }
     },
     showDialog() {
@@ -127,11 +131,14 @@ export default {
       const payload = { name, type };
 
       this.loading = true;
-      (editingId ? updateFoodsCategory(editingId, payload) : createFoodsCategory(payload))
+      (editingId
+        ? updateFoodsCategory(editingId, payload)
+        : createFoodsCategory(payload)
+      )
         .then(() => {
           return fetchFoodsCategoryList();
         })
-        .then((res) => {
+        .then(res => {
           this.dataList = res;
         })
         .then(() => {
@@ -139,7 +146,7 @@ export default {
           this.$message.success(`${editingId ? "更新" : "添加"}成功`);
           this.hideDialog();
         })
-        .catch((err) => {
+        .catch(err => {
           this.loading = false;
           this.$message.error(err.message);
         });
@@ -155,20 +162,22 @@ export default {
     },
     async remove(id) {
       try {
-        await this.$confirm("此操作将永久删除该数据, 是否继续?", { type: "warning" });
+        await this.$confirm("此操作将永久删除该数据, 是否继续?", {
+          type: "warning"
+        });
       } catch (error) {
         return;
       }
       deleteFoodsCategory(id)
         .then(() => {
-          const delIndex = this.dataList.findIndex((item) => item._id === id);
+          const delIndex = this.dataList.findIndex(item => item._id === id);
           this.dataList.splice(delIndex, 1);
           this.$message.success("删除成功");
         })
-        .catch((err) => {
+        .catch(err => {
           this.$message.error(err.message);
         });
-    },
-  },
+    }
+  }
 };
 </script>
