@@ -24,6 +24,9 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   (res) => {
+    if (res.status === 403) {
+      window.location.href = "/admin/auth/login";
+    }
     return res.data;
   },
   (err) => {
@@ -69,13 +72,14 @@ export const deleteManyRatings = (payload) => instance.post(`/ratings`, payload)
 
 export const fetchSeller = () => instance.get("/seller");
 export const fetchFoodsStatistic = (payload) => instance.get("/food-statistic", { params: payload });
-export const updateSeller = (id,payload) => instance.patch(`/seller/${id}`, payload);
+export const updateSeller = (id, payload) => instance.patch(`/seller/${id}`, payload);
 
 // 修改密码
 
-export const updatePassword = (id,payload) => instance.patch(`/administrators/${id}/change-password`, payload);
+export const updatePassword = (id, payload) =>
+  instance.patch(`/administrators/${id}/change-password`, payload);
 // 修改账户信息
 
-export const updateAccount = (id,payload) => instance.patch(`/administrators/${id}/change-account`, payload);
+export const updateAccount = (id, payload) => instance.patch(`/administrators/${id}/change-account`, payload);
 // 登录
 export const login = (payload) => instance.post("/administrators/login", payload);
