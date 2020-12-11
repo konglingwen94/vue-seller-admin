@@ -31,9 +31,7 @@
         <el-input-number :step="0.1" :min="0" v-model.number="form.price"></el-input-number>
       </el-form-item>
       <el-form-item label="缩略图">
-        <uploader list-type="picture" ref="uploader" :file-list="fileList">
-          <el-button>上传缩略图</el-button>
-        </uploader>
+        <uploader :file-list="fileList">上传缩略图</uploader>
       </el-form-item>
       <el-form-item>
         <el-button :loading="loading" @click="submit" type="primary">提交</el-button>

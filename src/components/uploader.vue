@@ -1,6 +1,7 @@
 <template>
   <div class="uploader">
     <el-upload
+      v-bind="$attrs"
       action="/api/admin/uploads"
       ref="uploader"
       :headers="{authorization:getToken}"
@@ -10,10 +11,10 @@
       :on-remove="handlerRemove"
       :file-list="fileList"
       :multiple="multipart"
+      :list-type="$attrs['list-type'] || picture-card"
       accept=".jpg, .png, jpeg"
-      v-bind="$attrs"
     >
-      <slot></slot>
+      <slot>点击上传文件</slot>
     </el-upload>
   </div>
 </template>
