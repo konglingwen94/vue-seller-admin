@@ -38,6 +38,11 @@
         <span slot="title">评价管理</span>
       </el-menu-item>
 
+      
+      <el-menu-item index="/administrator">
+        <i class="el-icon-user-solid"></i>
+        <span slot="title">管理员</span>
+      </el-menu-item>
       <el-menu-item index="/setting">
         <i class="el-icon-setting"></i>
         <span slot="title">设置</span>

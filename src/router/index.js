@@ -83,6 +83,15 @@ const routes = [
       breadcrumbMenus: ["设置",],
     },
   },
+  {
+    path: "administrator",
+    name: "administrator",
+
+    component: () => import(/* webpackChunkName: "administrator" */ "@/views/administrator.vue"),
+    meta: {
+      breadcrumbMenus: ["设置",],
+    },
+  },
 ];
 
 const router = new VueRouter({

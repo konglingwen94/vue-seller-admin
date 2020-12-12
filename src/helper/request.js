@@ -86,3 +86,5 @@ export const updatePassword = (id, payload) =>
 export const updateAccount = (id, payload) => instance.patch(`/administrators/${id}/change-account`, payload);
 // 登录
 export const login = (payload) => instance.post("/administrators/login", payload);
+
+export const fetchAdministratorList = (payload) => instance.get("/administrators", { params: payload });
