@@ -56,6 +56,10 @@ export default {
       if (!password) {
         return this.$message.error("密码不能为空");
       }
+      if(password.length<6){
+        return this.$message.error("密码长度不能小于6位");
+
+      }
       this.loading = true;
 
       const payload = { username, password };
