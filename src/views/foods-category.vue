@@ -14,9 +14,9 @@
       </el-table-column>
       <el-table-column width="250px" label="操作">
         <template v-slot="{ row }">
-          <el-button @click="update(row._id, row)" type="primary">更新</el-button>
-          <el-button @click="remove(row._id)" type="danger">删除</el-button>
-          <el-button @click="$router.push({name:'foods-add',params:{categoryID:row._id}})">添加商品</el-button>
+          <el-button size="small" @click="update(row._id, row)" type="primary">更新</el-button>
+          <el-button size="small" @click="remove(row._id)" type="danger">删除</el-button>
+          <el-button size="small" @click="$router.push({name:'foods-add',params:{categoryID:row._id}})">添加商品</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -28,7 +28,7 @@
           <el-input v-model="form.name"></el-input>
         </el-form-item>
         <el-form-item label="活动类型"> 
-          <el-select v-model="formType" clearable placeholder="请选择优惠类型">
+          <el-select style="width:100%" v-model="formType" clearable placeholder="请选择优惠类型（可选）">
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -133,7 +133,7 @@ export default {
       this.loading = true;
       (editingId
         ? updateFoodsCategory(editingId, payload)
-        : createFoodsCategory(payload)
+        : createOneFoodsCategory(payload)
       )
         .then(() => {
           return fetchFoodsCategoryList();
