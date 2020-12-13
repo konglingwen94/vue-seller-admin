@@ -1,18 +1,13 @@
 <template>
   <div class="dashboard">
-  <!-- 店铺统计 -->
+    <!-- 店铺统计 -->
     <div class="dashboard-header dashboard-item">
       <el-row :gutter="30">
         <el-col :span="8">
           <el-card shadow="always">
             <div class="dashboard-header__card">
               <div class="dashboard-header__card--icon">
-                <img
-                  width="100"
-                  height="100"
-                  src="http://fuss10.elemecdn.com/b/6c/75bd250e5ba69868f3b1178afbda3jpeg.jpeg?imageView2/1/w/180/h/180"
-                  alt
-                />
+                <i class="iconfont icon-sale-amount"></i>
               </div>
               <div class="dashboard-header__card--text">
                 <div class="label">销售额</div>
@@ -26,12 +21,7 @@
           <el-card shadow="always">
             <div class="dashboard-header__card">
               <div class="dashboard-header__card--icon">
-                <img
-                  width="100"
-                  height="100"
-                  src="http://fuss10.elemecdn.com/b/6c/75bd250e5ba69868f3b1178afbda3jpeg.jpeg?imageView2/1/w/180/h/180"
-                  alt
-                />
+                <i class="iconfont icon-shopping"></i>
               </div>
               <div class="dashboard-header__card--text">
                 <div class="label">销量</div>
@@ -45,12 +35,7 @@
           <el-card shadow="always">
             <div class="dashboard-header__card">
               <div class="dashboard-header__card--icon">
-                <img
-                  width="100"
-                  height="100"
-                  src="http://fuss10.elemecdn.com/b/6c/75bd250e5ba69868f3b1178afbda3jpeg.jpeg?imageView2/1/w/180/h/180"
-                  alt
-                />
+                <i class="iconfont icon-total-count"></i>
               </div>
               <div class="dashboard-header__card--text">
                 <div class="label">商品数</div>
@@ -86,10 +71,10 @@
           <div class="right">
             <el-progress
               :format="
-                    (value) => {
-                      return `高于周边商家${value}%`;
-                    }
-                  "
+                (value) => {
+                  return `高于周边商家${value}%`;
+                }
+              "
               :width="140"
               type="circle"
               :percentage="seller.rankRate"
@@ -146,16 +131,16 @@
 import { fetchFoodsStatistic, fetchSeller } from "@/helper/request";
 import "v-charts/lib/style.css";
 export default {
-  name: "page-seller",
+  name: "seller-dashboard",
   data() {
     const foodChartDataOrder = {
       label: "sellCount",
-      order: "asc"
+      order: "asc",
     };
     this.extend = {
       series: {
-        label: { show: true, position: "top" }
-      }
+        label: { show: true, position: "top" },
+      },
     };
     this.chartSettings = {
       axisSite: { right: ["highRating"] },
@@ -165,9 +150,9 @@ export default {
       labelMap: {
         sellCount: "销量",
         ratingCount: "评价数",
-        highRating: "好评率"
+        highRating: "好评率",
       },
-      dataOrder: foodChartDataOrder
+      dataOrder: foodChartDataOrder,
     };
     return {
       foodChartOptions: {
@@ -178,46 +163,46 @@ export default {
               margin: 19,
               align: "center",
               interval: 0,
-              rotate: 10
-            }
-          }
+              rotate: 10,
+            },
+          },
         },
         sortOptions: [
           { value: "sellCount", label: "按销量排序" },
           { value: "ratingCount", label: "按评价数排序" },
-          { value: "highRating", label: "按好评率排序" }
+          { value: "highRating", label: "按好评率排序" },
         ],
         dataOrder: foodChartDataOrder,
         payload: {
           sort: "sellCount",
 
-          count: 10
+          count: 10,
         },
-        loading: false
+        loading: false,
       },
       foodChartData: {
         columns: ["foodName", "sellCount", "ratingCount", "highRating"],
-        rows: []
+        rows: [],
       },
 
-      seller: {}
+      seller: {},
     };
   },
   watch: {
     "foodChartOptions.payload": {
       handler: "updateFoodsChartData",
-      deep: true
-    }
+      deep: true,
+    },
   },
   created() {
-    this.updateFoodsChartData().catch(err => {
+    this.updateFoodsChartData().catch((err) => {
       this.$message.error(err.message);
     });
     fetchSeller()
-      .then(res => {
+      .then((res) => {
         this.seller = res;
       })
-      .catch(err => {
+      .catch((err) => {
         this.$message.error(err.message);
       });
   },
@@ -228,44 +213,52 @@ export default {
       const { dataOrder, payload } = this.foodChartOptions;
 
       return fetchFoodsStatistic(payload)
-        .then(res => {
+        .then((res) => {
           this.foodChartOptions.loading = false;
           // 更新图表数据排序为指定排序
           dataOrder.label = payload.sort;
           // 排序图标顶部指示器
           const chartColumn = this.foodChartData.columns;
-          const swapIndex = chartColumn.findIndex(
-            item => item === payload.sort
-          );
+          const swapIndex = chartColumn.findIndex((item) => item === payload.sort);
           chartColumn.splice(swapIndex, 1, chartColumn[1]);
           chartColumn.splice(1, 1, payload.sort);
 
-          this.foodChartData.rows = res.map(item => {
+          this.foodChartData.rows = res.map((item) => {
             return {
               foodName: item.name,
               sellCount: item.sellCount,
               ratingCount: item.ratingCount,
-              highRating: item.highRating
+              highRating: item.highRating,
             };
           });
           // 设置x轴坐标label
 
-          this.foodChartOptions.echartsOptions.xAxis.data = res.map(
-            item => item.name
-          );
+          this.foodChartOptions.echartsOptions.xAxis.data = res.map((item) => item.name);
         })
-        .catch(err => {
+        .catch((err) => {
           this.foodChartOptions.loading = false;
 
           this.$message.error(err.message);
           return Promise.reject(err);
         });
-    }
-  }
+    },
+  },
 };
 </script>
-
+<style></style>
 <style scoped lang="less">
+.iconfont {
+  font-size: 70px;
+  &.icon-shopping{
+    color: #34bfa3;
+  }
+  &.icon-sale-amount {
+    color:red;
+  }
+  &.icon-total-count {
+    color:#409EFF;
+  }
+}
 .dashboard {
   &-item {
     margin-bottom: 50px;
@@ -276,8 +269,11 @@ export default {
       width: 100%;
       justify-content: space-between;
       align-items: center;
+      padding:0 50px;
       .label {
         margin-bottom: 12px;
+        font-size:24px;
+        color:#606266;
       }
       .number {
         font-size: 35px;
