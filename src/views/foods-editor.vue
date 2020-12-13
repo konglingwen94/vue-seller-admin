@@ -22,13 +22,17 @@
         <el-input v-model="form.info"></el-input>
       </el-form-item>
       <el-form-item label="描述">
-        <el-input type="textarea" :autosize="{ minRows: 3, maxRows: 8 }" v-model="form.description"></el-input>
+        <el-input
+          type="textarea"
+          :autosize="{ minRows: 3, maxRows: 8 }"
+          v-model="form.description"
+        ></el-input>
       </el-form-item>
       <el-form-item label="原价">
         <el-input-number :step="0.1" v-model="form.oldPrice"></el-input-number>
       </el-form-item>
       <el-form-item label="售价">
-        <el-input-number :step="0.1" :min="0" v-model.number="form.price"></el-input-number>
+        <el-input-number :precision="1" :step="1" :min="0" v-model.number="form.price"></el-input-number>
       </el-form-item>
       <el-form-item label="缩略图">
         <uploader :file-list="fileList">上传缩略图</uploader>
@@ -40,11 +44,7 @@
   </page-layout>
 </template>
 <script>
-import {
-  fetchFoodsCategoryList,
-  fetchOneFoods,
-  updateOneFoods
-} from "@/helper/request";
+import { fetchFoodsCategoryList, fetchOneFoods, updateOneFoods,createOneFoods } from "@/helper/request";
 import { pick } from "@/helper/utils";
 
 export default {
@@ -59,11 +59,11 @@ export default {
         image: "",
         info: "",
         description: "",
-        menuID: this.$route.params.categoryID || ""
+        menuID: this.$route.params.categoryID || "",
       },
       fileList: [],
 
-      loading: false
+      loading: false,
     };
   },
   computed: {
@@ -73,16 +73,16 @@ export default {
     },
     pageTitle() {
       return this.$route.params.id ? "更新商品" : "添加商品";
-    }
+    },
   },
   created() {
     // 获取商品分类
     fetchFoodsCategoryList()
-      .then(res => {
+      .then((res) => {
         this.categoryOpts = res;
         // this.loading = false;
       })
-      .catch(err => {
+      .catch((err) => {
         this.$message.error(err.message);
         // this.loading = false;
       });
@@ -90,16 +90,16 @@ export default {
     if (this.pageTitle === "更新商品") {
       const id = this.$route.params.id;
       fetchOneFoods(id)
-        .then(res => {
+        .then((res) => {
           Object.assign(this.form, pick(res, Object.keys(this.form)));
           this.fileList = [
             {
               name: res.name,
-              url: res.image
-            }
+              url: res.image,
+            },
           ];
         })
-        .catch(err => {
+        .catch((err) => {
           this.$message.error(err.message);
         });
     }
@@ -113,7 +113,7 @@ export default {
         description,
         oldPrice,
         menuID,
-        price
+        price,
       } = this.form;
 
       if (!name) {
@@ -154,21 +154,22 @@ export default {
         description,
         image,
         oldPrice,
-        price
+        price,
       };
 
       this.loading = true;
-      updateOneFoods(id, payload)
-        .then(res => {
-          this.$message.success("更新商品成功");
+      const action = this.pageTitle === "添加商品" ? createOneFoods(payload) : updateOneFoods(id, payload);
+      action
+        .then((res) => {
+          this.$message.success(this.pageTitle === "添加商品" ?'添加商品成功':"更新商品成功");
           this.loading = false;
           this.$router.push("/foods-list");
         })
-        .catch(err => {
+        .catch((err) => {
           this.$message.error(err.message);
           this.loading = false;
         });
-    }
-  }
+    },
+  },
 };
 </script>

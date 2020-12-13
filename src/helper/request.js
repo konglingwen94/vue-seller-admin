@@ -60,7 +60,7 @@ export const updateOneFoods = (id, payload) => instance.patch(`/foods/${id}`, pa
 // 删除食品
 export const deleteFoods = (id) => instance.delete(`/foods/${id}`);
 // 添加食品
-export const createFoods = (payload) => instance.post("/foods", payload);
+export const createOneFoods = (payload) => instance.post("/foods", payload);
 export const fetchOneFoods = (id) => instance.get(`/foods/${id}`);
 // 删除已上传到服务器的文件
 export const deleteUploadedFile = (filename) => instance.delete(`/uploads/${filename}`);
