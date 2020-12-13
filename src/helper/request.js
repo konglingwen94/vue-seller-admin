@@ -62,8 +62,13 @@ export const deleteOneFoods = (id) => instance.delete(`/foods/${id}`);
 // 添加食品
 export const createOneFoods = (payload) => instance.post("/foods", payload);
 export const fetchOneFoods = (id) => instance.get(`/foods/${id}`);
+
+export const enableOneFood=(id)=>instance.patch(`/foods/${id}/enable`)
+export const disableOneFood=(id)=>instance.patch(`/foods/${id}/disable`)
+
 // 删除已上传到服务器的文件
 export const deleteUploadedFile = (filename) => instance.delete(`/uploads/${filename}`);
+
 
 //获取评价列表
 export const fetchRatings = (payload) => instance.get("/ratings", { params: payload });

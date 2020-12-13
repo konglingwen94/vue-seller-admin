@@ -21,7 +21,7 @@
             </el-form>
           </div>
           <div class="right" style="width:200px">
-            <el-image   :src="props.row.image"></el-image>
+            <el-image :src="props.row.image"></el-image>
           </div>
         </div>
       </el-table-column>
@@ -30,19 +30,26 @@
       <el-table-column prop="oldPrice" label="原价"></el-table-column>
       <el-table-column prop="rating" label="评价数"></el-table-column>
       <!-- <el-table-column prop="info" label="信息"></el-table-column> -->
-      <!-- <el-table-column prop="description" label="描述"></el-table-column> -->
+      <el-table-column label="是否在售">
+        <template v-slot="{ row }">
+          <span :style="`color:${row.online ? 'green' : 'red'}`">{{ row.online ? "在售" : "已下架" }}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="sellCount" label="销量"></el-table-column>
 
-      <el-table-column label="操作">
+      <el-table-column width="300px" label="操作">
         <template v-slot="{ row }">
           <el-button type="primary" @click="updateOne(row._id)">更新</el-button>
           <el-button type="danger" @click="deleteOne(row._id)">删除</el-button>
+          <el-button type="success" @click="updateOneFoodStatus(row, row.online)">{{
+            row.online ? "下架" : "上架"
+          }}</el-button>
         </template>
       </el-table-column>
     </el-table>
     <div slot="footer">
       <el-pagination
-      v-if="dataList.length"
+        v-if="dataList.length"
         @current-change="handlePageChange"
         :current-page.sync="currentPage"
         background
@@ -54,7 +61,7 @@
 </template>
 
 <script>
-import { fetchFoodsList, deleteOneFoods } from "@/helper/request";
+import { fetchFoodsList, deleteOneFoods, disableOneFood, enableOneFood } from "@/helper/request";
 export default {
   name: "foods-list",
   data: () => ({
@@ -76,6 +83,18 @@ export default {
         .catch((err) => {
           this.loading = false;
         });
+    },
+    updateOneFoodStatus(row, online) {
+      const id=row.id
+
+      const action = online ? disableOneFood(id) : enableOneFood(id);
+
+      action
+        .then(() => {
+          row.online=!online
+          this.$message.success(`${online ? "下架" : "上架"}成功`);
+        })
+        .catch((err) => this.$message.error(err.message));
     },
     async deleteOne(id) {
       try {
