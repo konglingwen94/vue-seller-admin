@@ -4,6 +4,9 @@
       <el-form-item label="店铺名称">
         <el-input v-model="data.name"></el-input>
       </el-form-item>
+      <el-form-item label="店铺图片">
+        <v-upload   v-model="data.avatar"></v-upload>
+      </el-form-item>
       <el-form-item label="优惠信息">
         <el-tag
           :key="tag.type"
@@ -74,10 +77,12 @@ export default {
     return {
       loading: false,
       data: {
+        _id:'',
         name: "",
         supports: [],
         infos: [],
         bulletin: "",
+        avatar: "",
         minPrice: 0,
         deliveryPrice: 0,
         pics: []
@@ -112,6 +117,7 @@ export default {
     async submit() {
       let {
         name,
+        avatar,
         supports,
         bulletin,
         deliveryPrice,
@@ -123,6 +129,9 @@ export default {
 
       if (!name) {
         return this.$message.error("请输入店铺名称");
+      }
+      if (!avatar) {
+        return this.$message.error("请上传店铺图片");
       }
       if (!bulletin) {
         return this.$message.error("请输入店铺公告");
@@ -201,6 +210,7 @@ export default {
         deliveryPrice,
         minPrice,
         pics,
+        avatar,
         infos
       };
 
