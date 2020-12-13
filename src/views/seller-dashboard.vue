@@ -11,7 +11,7 @@
               </div>
               <div class="dashboard-header__card--text">
                 <div class="label">销售额</div>
-                <div class="number">{{ seller.totalPrice }}</div>
+                <div class="number">{{ seller.totalPrice.toLocaleString() }}</div>
               </div>
             </div>
           </el-card>
@@ -25,7 +25,7 @@
               </div>
               <div class="dashboard-header__card--text">
                 <div class="label">销量</div>
-                <div class="number">{{ seller.totalSellCount }}</div>
+                <div class="number">{{ seller.totalSellCount.toLocaleString() }}</div>
               </div>
             </div>
           </el-card>
@@ -39,7 +39,7 @@
               </div>
               <div class="dashboard-header__card--text">
                 <div class="label">商品数</div>
-                <div class="number">{{ seller.totalFoodCount }}</div>
+                <div class="number">{{ seller.totalFoodCount.toLocaleString() }}</div>
               </div>
             </div>
           </el-card>
@@ -185,7 +185,11 @@ export default {
         rows: [],
       },
 
-      seller: {},
+      seller: {
+        totalPrice: 0,
+        totalSellCount: 0,
+        totalFoodCount: 0,
+      },
     };
   },
   watch: {
@@ -249,14 +253,14 @@ export default {
 <style scoped lang="less">
 .iconfont {
   font-size: 70px;
-  &.icon-shopping{
+  &.icon-shopping {
     color: #34bfa3;
   }
   &.icon-sale-amount {
-    color:red;
+    color: red;
   }
   &.icon-total-count {
-    color:#409EFF;
+    color: #409eff;
   }
 }
 .dashboard {
@@ -269,11 +273,11 @@ export default {
       width: 100%;
       justify-content: space-between;
       align-items: center;
-      padding:0 50px;
+      height: 100px;
       .label {
         margin-bottom: 12px;
-        font-size:24px;
-        color:#606266;
+        font-size: 24px;
+        color: #606266;
       }
       .number {
         font-size: 35px;
