@@ -1,18 +1,38 @@
 <template>
   <page-layout id="foods-list">
     <el-table v-loading="loading" :data="dataList" border>
+      <el-table-column type="expand">
+        <div style="display:flex;justify-content:space-between;align-items:center" slot-scope="props">
+          <div class="left" style="width:400px">
+            <el-form label-position="left" class="">
+              <el-form-item label="商品 ID">
+                <div>{{ props.row._id }}</div>
+              </el-form-item>
+
+              <el-form-item label="商品分类">
+                <span>{{ props.row.category && props.row.category.name }}</span>
+              </el-form-item>
+              <el-form-item label="商品信息">
+                <span>{{ props.row.info }}</span>
+              </el-form-item>
+              <el-form-item label="商品描述">
+                <span>{{ props.row.description }}</span>
+              </el-form-item>
+            </el-form>
+          </div>
+          <div class="right" style="width:200px">
+            <el-image   :src="props.row.image"></el-image>
+          </div>
+        </div>
+      </el-table-column>
       <el-table-column prop="name" label="名称"></el-table-column>
-      <el-table-column prop="price" label="价格"></el-table-column>
+      <el-table-column prop="price" label="售价"></el-table-column>
       <el-table-column prop="oldPrice" label="原价"></el-table-column>
       <el-table-column prop="rating" label="评价数"></el-table-column>
-      <el-table-column prop="info" label="信息"></el-table-column>
-      <el-table-column prop="description" label="描述"></el-table-column>
+      <!-- <el-table-column prop="info" label="信息"></el-table-column> -->
+      <!-- <el-table-column prop="description" label="描述"></el-table-column> -->
       <el-table-column prop="sellCount" label="销量"></el-table-column>
-      <el-table-column label>
-        <template v-slot="{ row }">
-          <img width="100%" :src="row.image" :alt="row.image" />
-        </template>
-      </el-table-column>
+
       <el-table-column label="操作">
         <template v-slot="{ row }">
           <el-button type="primary" @click="updateOne(row._id)">更新</el-button>
@@ -40,26 +60,26 @@ export default {
     dataList: [],
     loading: false,
     total: 30,
-    currentPage: 1
+    currentPage: 1,
   }),
   methods: {
     handlePageChange(page = 1) {
       this.loading = true;
       fetchFoodsList({ page })
-        .then(res => {
+        .then((res) => {
           this.dataList = res.data;
           this.total = res.total;
           this.currentPage = res.pagination.page;
           this.loading = false;
         })
-        .catch(err => {
+        .catch((err) => {
           this.loading = false;
         });
     },
     async deleteOne(id) {
       try {
         await this.$confirm("此食品以经删除将无法恢复，是否继续", "提示", {
-          type: "warning"
+          type: "warning",
         });
       } catch (error) {
         return;
@@ -68,18 +88,18 @@ export default {
       deleteFoods(id)
         .then(() => {
           this.dataList.splice(
-            this.dataList.findIndex(item => item._id === id),
+            this.dataList.findIndex((item) => item._id === id),
             1
           );
           this.$message.success("删除成功");
         })
-        .catch(err => {
+        .catch((err) => {
           this.$message.error(err);
         });
     },
     updateOne(id) {
       this.$router.push(`/foods/${id}/edit`);
-    }
+    },
   },
   created() {
     this.handlePageChange();
@@ -91,6 +111,6 @@ export default {
     //   .catch((err) => {
     //     this.loading = false;
     //   });
-  }
+  },
 };
 </script>

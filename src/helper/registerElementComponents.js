@@ -35,10 +35,13 @@ import {
   DropdownItem,
   InputNumber,
   PageHeader,
+  Image,
 } from "element-ui";
 export default (Vue) => {
+  Vue.prototype.$ELEMENT = { size: 'small', };
   Vue.prototype.$message = Message;
   Vue.prototype.$confirm = MessageBox.confirm;
+  Vue.use(Image);
   Vue.use(Row);
   Vue.use(Col);
   Vue.use(PageHeader);
