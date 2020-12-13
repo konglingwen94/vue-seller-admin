@@ -10,10 +10,10 @@
       >
         <el-form>
           <el-form-item label="用户名">
-            <el-input v-model="username"></el-input>
+            <el-input placeholder="首次登陆的用户默认注册" v-model.trim="username"></el-input>
           </el-form-item>
           <el-form-item label="密码">
-            <el-input v-model="password" type="password"></el-input>
+            <el-input v-model.trim="password"  show-password></el-input>
           </el-form-item>
 
           <el-button
