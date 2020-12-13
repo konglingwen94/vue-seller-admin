@@ -21,7 +21,7 @@
           @keyup.enter.native="handleInputConfirm"
           @blur="handleInputConfirm()"
         ></el-input>
-        <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
+        <el-button v-else class="button-new-tag" size="small" @click="showInput">添加</el-button>
       </el-form-item>
       <el-form-item label="商家信息">
         <div class="sellerInfo__item" v-for="(item,index) in data.infos" :key="index">
@@ -61,6 +61,7 @@
 </template>
 
 <script>
+import { pick } from "@/helper/utils";
 import {
   fetchSeller,
   updateSeller,
@@ -72,7 +73,15 @@ export default {
   data() {
     return {
       loading: false,
-      data: {},
+      data: {
+        name: "",
+        supports: [],
+        infos: [],
+        bulletin: "",
+        minPrice: 0,
+        deliveryPrice: 0,
+        pics: []
+      },
       fileList: [],
       inputVisible: false,
       inputValue: ""
@@ -87,7 +96,7 @@ export default {
   created() {
     fetchSeller()
       .then(res => {
-        this.data = res;
+        Object.assign(this.data,pick(res,Object.keys(this.data)))
         this.fileList = res.pics.map(item => {
           return {
             url: item,
@@ -172,12 +181,15 @@ export default {
           };
           const uploadUrl = "/uploads";
 
-          return instance.post(uploadUrl, formData, config).then(res => {
-            return res.path;
-          }).catch(err=>{
-            this.$message.error(err.message)
-            return Promise.reject(err)
-          });
+          return instance
+            .post(uploadUrl, formData, config)
+            .then(res => {
+              return res.path;
+            })
+            .catch(err => {
+              this.$message.error(err.message);
+              return Promise.reject(err);
+            });
         })
       );
       pics.push(...uploadPics);
@@ -213,7 +225,7 @@ export default {
           this.deleteUploadedFiles.push(file);
         }
       }
-      
+
       this.uploadFiles = this.uploadFiles || [];
       let delIndex = this.uploadFiles.findIndex(item => item === file.raw);
       if (delIndex > -1) {
@@ -228,7 +240,6 @@ export default {
       this.uploadFiles.push(file.raw);
     },
     uploadSuccess(res, file) {
-     
       if (!this.data.pics.includes(res.path)) {
         this.data.pics.push(res.path);
       }
