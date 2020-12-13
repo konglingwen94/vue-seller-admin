@@ -20,7 +20,7 @@
         <template v-slot="{ row }">{{ new Date(row.createdAt).toLocaleString() }}</template>
       </el-table-column>
 
-      <el-table-column>
+      <el-table-column label="操作">
         <template v-slot="{ row }">
           <el-button type="danger" @click="deleteOne(row._id)">删除</el-button>
         </template>
