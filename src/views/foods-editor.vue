@@ -29,7 +29,7 @@
         ></el-input>
       </el-form-item>
       <el-form-item label="原价">
-        <el-input-number :step="0.1" v-model="form.oldPrice"></el-input-number>
+        <el-input-number :step="1" :precision="1" v-model="form.oldPrice"></el-input-number>
       </el-form-item>
       <el-form-item label="售价">
         <el-input-number :precision="1" :step="1" :min="0" v-model.number="form.price"></el-input-number>

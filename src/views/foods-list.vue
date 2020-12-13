@@ -42,6 +42,7 @@
     </el-table>
     <div slot="footer">
       <el-pagination
+      v-if="dataList.length"
         @current-change="handlePageChange"
         :current-page.sync="currentPage"
         background
@@ -53,7 +54,7 @@
 </template>
 
 <script>
-import { fetchFoodsList, deleteFoods } from "@/helper/request";
+import { fetchFoodsList, deleteOneFoods } from "@/helper/request";
 export default {
   name: "foods-list",
   data: () => ({

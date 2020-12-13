@@ -12,7 +12,7 @@
           <span>{{ getType(row.type) }}</span>
         </template>
       </el-table-column>
-      <el-table-column width="350px" label="操作">
+      <el-table-column width="250px" label="操作">
         <template v-slot="{ row }">
           <el-button @click="update(row._id, row)" type="primary">更新</el-button>
           <el-button @click="remove(row._id)" type="danger">删除</el-button>
@@ -47,9 +47,9 @@
 <script>
 import {
   fetchFoodsCategoryList,
-  deleteFoodsCategory,
-  createFoodsCategory,
-  updateFoodsCategory
+  deleteOneFoodsCategory,
+  createOneFoodsCategory,
+  updateOneFoodsCategory
 } from "@/helper/request.js";
 import { pick } from "@/helper/utils.js";
 
