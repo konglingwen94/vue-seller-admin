@@ -4,7 +4,7 @@
       <el-button @click="add">添加分类</el-button>
     </div>
 
-    <el-table border :data="dataList">
+    <el-table v-loading="loading" border :data="dataList">
       <el-table-column label="名称" prop="name"></el-table-column>
       <el-table-column label="商品数量" prop="foodsCount"></el-table-column>
       <el-table-column label="活动类型">

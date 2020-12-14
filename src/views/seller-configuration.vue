@@ -1,5 +1,5 @@
 <template>
-  <div class="seller" v-loading="loading">
+  <div class="seller">
     <el-form label-width="100px" label-suffix=" :" :model="data">
       <el-form-item label="店铺名称">
         <el-input v-model="data.name"></el-input>
@@ -57,7 +57,7 @@
         >点击上传图片</el-upload>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submit">提交</el-button>
+        <el-button :loading="loading" type="primary" @click="submit">提交</el-button>
       </el-form-item>
     </el-form>
   </div>

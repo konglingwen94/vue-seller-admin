@@ -1,6 +1,6 @@
 <template>
   <page-layout class="ratings">
-    <!-- <pre>{{dataList[0]}}</pre> -->
+     
 
     <div slot="header">
       <el-button @click="deleteMany" :disabled="!selectionIdList.length" type="danger"
