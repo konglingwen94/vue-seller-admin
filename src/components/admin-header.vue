@@ -63,5 +63,6 @@ export default {
   align-items: center;
   margin-right: 11px;
   cursor: pointer;
+  font-size:22px;
 }
 </style>

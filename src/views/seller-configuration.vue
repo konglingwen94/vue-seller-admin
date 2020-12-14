@@ -1,83 +1,83 @@
 <template>
   <div class="seller">
-    <el-form label-width="100px" label-suffix=" :" :model="data">
-      <el-form-item label="店铺名称">
-        <el-input v-model="data.name"></el-input>
-      </el-form-item>
-      <el-form-item label="店铺图片">
-        <v-upload   v-model="data.avatar"></v-upload>
-      </el-form-item>
-      <el-form-item label="优惠信息">
-        <el-tag
-          :key="tag.type"
-          v-for="tag in data.supports"
-          closable
-          :disable-transitions="false"
-          @close="handleClose(tag._id)"
-        >{{tag.description}}</el-tag>
-        <el-input
-          class="input-new-tag"
-          v-if="inputVisible"
-          v-model.trim="inputValue"
-          ref="saveTagInput"
-          size="small"
-          @keyup.enter.native="handleInputConfirm"
-          @blur="handleInputConfirm()"
-        ></el-input>
-        <el-button v-else class="button-new-tag" size="small" @click="showInput">添加</el-button>
-      </el-form-item>
-      <el-form-item label="商家信息">
-        <div class="sellerInfo__item" v-for="(item,index) in data.infos" :key="index">
-          <el-input v-model="data.infos[index]"></el-input>
-        </div>
-        <el-button type="primary" size="mini" @click="data.infos.push('')">添加</el-button>
-        <el-button size="mini" type="danger" @click="data.infos.pop()">删除</el-button>
-      </el-form-item>
-      <el-form-item label="店铺公告">
-        <el-input type="textarea" :autosize="{minRows:3,maxRows:5}" v-model="data.bulletin"></el-input>
-      </el-form-item>
-      <el-form-item label="起送价">
-        <el-input-number :precision="1" :min="0" v-model="data.minPrice"></el-input-number>
-      </el-form-item>
-      <el-form-item label="配送费">
-        <el-input-number :precision="1" :min="0" v-model="data.deliveryPrice"></el-input-number>
-      </el-form-item>
-      <el-form-item label="商家实景">
-        <el-upload
-          :fileList="fileList"
-          :on-change="uploadChange"
-          :on-remove="uploadRemove"
-          :on-exceed="()=>$message.error('商家实景最多可上传10张图片')"
-          :auto-upload="false"
-          action="/api/admin/uploads"
-          :limit="10"
-          multiple
-          accept=".jpg, .png, .jpeg"
-          list-type="picture-card"
-        >点击上传图片</el-upload>
-      </el-form-item>
-      <el-form-item>
-        <el-button :loading="loading" type="primary" @click="submit">提交</el-button>
-      </el-form-item>
-    </el-form>
+    <page-layout>
+      <el-page-header @back="$router.back()" slot="header" content="店铺配置"></el-page-header>
+      <el-form label-width="100px" label-suffix=" :" :model="data">
+        <el-form-item label="店铺名称">
+          <el-input v-model="data.name"></el-input>
+        </el-form-item>
+        <el-form-item label="店铺图片">
+          <v-upload v-model="data.avatar"></v-upload>
+        </el-form-item>
+        <el-form-item label="优惠信息">
+          <el-tag
+            :key="tag.type"
+            v-for="tag in data.supports"
+            closable
+            :disable-transitions="false"
+            @close="handleClose(tag._id)"
+            >{{ tag.description }}</el-tag
+          >
+          <el-input
+            class="input-new-tag"
+            v-if="inputVisible"
+            v-model.trim="inputValue"
+            ref="saveTagInput"
+            size="small"
+            @keyup.enter.native="handleInputConfirm"
+            @blur="handleInputConfirm()"
+          ></el-input>
+          <el-button v-else class="button-new-tag" size="small" @click="showInput">添加</el-button>
+        </el-form-item>
+        <el-form-item label="商家信息">
+          <div class="sellerInfo__item" v-for="(item, index) in data.infos" :key="index">
+            <el-input v-model="data.infos[index]"></el-input>
+          </div>
+          <el-button type="primary" size="mini" @click="data.infos.push('')">添加</el-button>
+          <el-button size="mini" type="danger" @click="data.infos.pop()">删除</el-button>
+        </el-form-item>
+        <el-form-item label="店铺公告">
+          <el-input type="textarea" :autosize="{ minRows: 3, maxRows: 5 }" v-model="data.bulletin"></el-input>
+        </el-form-item>
+        <el-form-item label="起送价">
+          <el-input-number :precision="1" :min="0" v-model="data.minPrice"></el-input-number>
+        </el-form-item>
+        <el-form-item label="配送费">
+          <el-input-number :precision="1" :min="0" v-model="data.deliveryPrice"></el-input-number>
+        </el-form-item>
+        <el-form-item label="商家实景">
+          <el-upload
+            :fileList="fileList"
+            :on-change="uploadChange"
+            :on-remove="uploadRemove"
+            :on-exceed="() => $message.error('商家实景最多可上传10张图片')"
+            :auto-upload="false"
+            action="/api/admin/uploads"
+            :limit="10"
+            multiple
+            accept=".jpg, .png, .jpeg"
+            list-type="picture-card"
+            >点击上传图片</el-upload
+          >
+        </el-form-item>
+        <el-form-item>
+          <el-button :loading="loading" type="primary" @click="submit">提交</el-button>
+        </el-form-item>
+      </el-form>
+    </page-layout>
   </div>
 </template>
 
 <script>
 import { pick } from "@/helper/utils";
-import {
-  fetchSeller,
-  updateSeller,
-  deleteUploadedFile,
-  instance
-} from "@/helper/request";
+import { fetchSeller, updateSeller, deleteUploadedFile, instance } from "@/helper/request";
 export default {
   name: "page-seller",
   data() {
     return {
       loading: false,
       data: {
-        _id:'',
+        _id: "",
         name: "",
         supports: [],
         infos: [],
@@ -85,47 +85,37 @@ export default {
         avatar: "",
         minPrice: 0,
         deliveryPrice: 0,
-        pics: []
+        pics: [],
       },
       fileList: [],
       inputVisible: false,
-      inputValue: ""
+      inputValue: "",
     };
   },
   computed: {
     getToken() {
       var token = localStorage.getItem("token");
       return `Bearer ${token}`;
-    }
+    },
   },
   created() {
     fetchSeller()
-      .then(res => {
-        Object.assign(this.data,pick(res,Object.keys(this.data)))
-        this.fileList = res.pics.map(item => {
+      .then((res) => {
+        Object.assign(this.data, pick(res, Object.keys(this.data)));
+        this.fileList = res.pics.map((item) => {
           return {
             url: item,
-            name: item
+            name: item,
           };
         });
       })
-      .catch(err => {
+      .catch((err) => {
         this.$message.error(err.message);
       });
   },
   methods: {
     async submit() {
-      let {
-        name,
-        avatar,
-        supports,
-        bulletin,
-        deliveryPrice,
-        minPrice,
-        pics,
-        infos,
-        _id
-      } = this.data;
+      let { name, avatar, supports, bulletin, deliveryPrice, minPrice, pics, infos, _id } = this.data;
 
       if (!name) {
         return this.$message.error("请输入店铺名称");
@@ -137,7 +127,7 @@ export default {
         return this.$message.error("请输入店铺公告");
       }
       if (
-        !infos.every(item => {
+        !infos.every((item) => {
           return !!item.trim();
         })
       ) {
@@ -151,15 +141,15 @@ export default {
         return this.$message.error("请输入起送价");
       }
       if (supports.length) {
-        supports = supports.map(item => ({
+        supports = supports.map((item) => ({
           type: item.type,
-          description: item.description
+          description: item.description,
         }));
       }
 
       await Promise.all(
-        (this.deleteUploadedFiles || []).map(file => {
-          let delIndex = this.data.pics.findIndex(item => item === file.url);
+        (this.deleteUploadedFiles || []).map((file) => {
+          let delIndex = this.data.pics.findIndex((item) => item === file.url);
           if (delIndex > -1) {
             const pics = this.data.pics;
             const targetPic = pics[delIndex];
@@ -169,7 +159,7 @@ export default {
               pics.splice(delIndex, 1);
               return deleteUploadedFile(filename)
                 .then(() => {})
-                .catch(err => {
+                .catch((err) => {
                   this.$message.error(err.message);
                 });
             }
@@ -178,24 +168,24 @@ export default {
       );
 
       const uploadPics = await Promise.all(
-        (this.uploadFiles || []).map(file => {
+        (this.uploadFiles || []).map((file) => {
           let formData = new FormData();
 
           formData.append("file", file);
 
           let config = {
             headers: {
-              "Content-Type": "multipart/form-data"
-            }
+              "Content-Type": "multipart/form-data",
+            },
           };
           const uploadUrl = "/uploads";
 
           return instance
             .post(uploadUrl, formData, config)
-            .then(res => {
+            .then((res) => {
               return res.path;
             })
-            .catch(err => {
+            .catch((err) => {
               this.$message.error(err.message);
               return Promise.reject(err);
             });
@@ -211,7 +201,7 @@ export default {
         minPrice,
         pics,
         avatar,
-        infos
+        infos,
       };
 
       this.loading = true;
@@ -221,7 +211,7 @@ export default {
           this.loading = false;
           this.$router.push("/");
         })
-        .catch(err => {
+        .catch((err) => {
           this.loading = false;
           this.$message.error(err.message);
         });
@@ -237,7 +227,7 @@ export default {
       }
 
       this.uploadFiles = this.uploadFiles || [];
-      let delIndex = this.uploadFiles.findIndex(item => item === file.raw);
+      let delIndex = this.uploadFiles.findIndex((item) => item === file.raw);
       if (delIndex > -1) {
         this.uploadFiles.splice(delIndex, 1);
       }
@@ -257,14 +247,14 @@ export default {
     handleClose(id) {
       const supports = this.data.supports;
       supports.splice(
-        this.data.supports.findIndex(tag => tag._id === id),
+        this.data.supports.findIndex((tag) => tag._id === id),
         1
       );
     },
 
     showInput() {
       this.inputVisible = true;
-      this.$nextTick(_ => {
+      this.$nextTick((_) => {
         this.$refs.saveTagInput.$refs.input.focus();
       });
     },
@@ -276,18 +266,17 @@ export default {
       if (inputValue) {
         supports.push({
           description: inputValue,
-          type: supports.length
+          type: supports.length,
         });
       }
       this.inputVisible = false;
       this.inputValue = "";
-    }
-  }
+    },
+  },
 };
 </script>
 
-<style>
-</style>
+<style></style>
 <style>
 .el-tag + .el-tag {
   margin-left: 10px;

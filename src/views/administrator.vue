@@ -1,5 +1,5 @@
 <template>
-  <div id="administrator">
+  <page-layout id="administrator">
     <el-table border :data="dataList">
       <el-table-column label="用户名" prop="username"></el-table-column>
       <el-table-column label="角色">
@@ -9,7 +9,7 @@
         <template v-slot="{row}">{{new Date(row.createdAt).toLocaleString()}}</template>
       </el-table-column>
     </el-table>
-  </div>
+  </page-layout>
 </template>
 <script>
 import { fetchAdministratorList } from "@/helper/request";
