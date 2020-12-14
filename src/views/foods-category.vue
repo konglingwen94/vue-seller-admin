@@ -168,7 +168,7 @@ export default {
       } catch (error) {
         return;
       }
-      deleteFoodsCategory(id)
+      deleteOneFoodsCategory(id)
         .then(() => {
           const delIndex = this.dataList.findIndex(item => item._id === id);
           this.dataList.splice(delIndex, 1);
