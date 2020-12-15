@@ -89,7 +89,7 @@ const routes = [
 
     component: () => import(/* webpackChunkName: "administrator" */ "@/views/administrator.vue"),
     meta: {
-      breadcrumbMenus: ["设置",],
+      breadcrumbMenus: ["管理员",],
     },
   },
 ];
