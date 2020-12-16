@@ -37,6 +37,7 @@ npm run build
 - [x] 管理员登录和退出
 - [x] 商品的增删改查
 - [x] 商品分类的增删改查
+- [x] 商品上架/下架
 - [x] 评价管理
 - [x] 管理员账户的密码修改
 - [x] 管理员账户信息修改
@@ -54,6 +55,24 @@ npm run build
 
 配置页面
 ![配置页面](./screenshots/configuration.png)
+
+商品管理
+![商品管理](./screenshots/food-list.png)
+
+添加商品
+![添加商品](./screenshots/food-add.png)
+
+分类管理
+![分类管理](./screenshots/category.png)
+
+评价管理
+![评价管理](./screenshots/rating.png)
+
+管理员
+![管理员](./screenshots/administrator.png)
+
+设置
+![设置](./screenshots/setting.png)
 
 
 ## 支持

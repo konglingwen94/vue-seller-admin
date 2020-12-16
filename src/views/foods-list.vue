@@ -105,7 +105,7 @@ export default {
         return;
       }
 
-      deleteFoods(id)
+      deleteOneFoods(id)
         .then(() => {
           this.dataList.splice(
             this.dataList.findIndex((item) => item._id === id),
