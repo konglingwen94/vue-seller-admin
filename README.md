@@ -4,6 +4,10 @@
 
 本项目主要使用`Vue`+`ElementUI`搭建而成。可以用作web端管理后台的通用模板参考使用
 
+## 在线预览
+
+<123.56.124.33:5000/admin>
+
 ## 配套项目
 
 客户端项目：<https://github.com/konglingwen94/vue-elm-seller>
