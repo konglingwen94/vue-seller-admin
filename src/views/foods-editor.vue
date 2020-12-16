@@ -59,7 +59,7 @@ export default {
         image: "",
         info: "",
         description: "",
-        menuID: this.$route.params.categoryID || "",
+        menuID: this.$route.query.categoryID || "",
       },
       fileList: [],
 
@@ -105,36 +105,7 @@ export default {
         });
     }
   },
-  // beforeRouteUpdate(to,from,next) {
-  //   // 获取商品分类
-  //   fetchFoodsCategoryList()
-  //     .then((res) => {
-  //       this.categoryOpts = res;
-  //       // this.loading = false;
-  //     })
-  //     .catch((err) => {
-  //       this.$message.error(err.message);
-  //       // this.loading = false;
-  //     });
-
-  //   if (this.pageTitle === "更新商品") {
-  //     const id = this.$route.params.id;
-  //     fetchOneFoods(id)
-  //       .then((res) => {
-  //         Object.assign(this.form, pick(res, Object.keys(this.form)));
-  //         this.fileList = [
-  //           {
-  //             name: res.name,
-  //             url: res.image,
-  //           },
-  //         ];
-  //       })
-  //       .catch((err) => {
-  //         this.$message.error(err.message);
-  //       });
-  //   }
-  //    next()
-  // },
+   
   methods: {
     async submit() {
       let {

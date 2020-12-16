@@ -72,7 +72,7 @@
 import { pick } from "@/helper/utils";
 import { fetchSeller, updateSeller, deleteUploadedFile, instance } from "@/helper/request";
 export default {
-  name: "page-seller",
+  name: "seller-configuration",
   data() {
     return {
       loading: false,

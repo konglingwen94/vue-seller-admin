@@ -16,7 +16,7 @@
         <template v-slot="{ row }">
           <el-button size="small" @click="update(row._id, row)" type="primary">更新</el-button>
           <el-button size="small" @click="remove(row._id)" type="danger">删除</el-button>
-          <el-button size="small" @click="$router.push({name:'foods-add',params:{categoryID:row._id}})">添加商品</el-button>
+          <el-button size="small" @click="$router.push({name:'foods-add',query:{categoryID:row._id}})">添加商品</el-button>
         </template>
       </el-table-column>
     </el-table>
