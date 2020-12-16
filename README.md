@@ -1,6 +1,6 @@
 # vue-elm-admin
 
-前端项目[vue-elm-seller](https://github.com/konglingwen94/vue-elm-seller)的配套管理系统
+前端项目[vue-elm-seller](https://github.com/konglingwen94/vue-elm-seller)的配套管理后台系统
 
 本项目主要使用`Vue`+`ElementUI`搭建而成。可以用作web端管理后台的通用模板参考使用
 
@@ -40,7 +40,16 @@ npm run build
 - [x] 评价管理
 - [x] 管理员账户的密码修改
 - [x] 管理员账户信息修改
+- [x] 记录浏览过的页面到应用顶部标签（tab-tag）
+- [x] 分等级的多管理员
+- [ ] 项目整体和浏览标签优化
+
 
 ## 支持
+
+## 项目截图
+
+首页
+![首页](./screenshots/configuration.png)
 
 喜欢本项目的话请您动手点一下`stat`,谢谢！
