@@ -1,9 +1,8 @@
 <template>
   <div class="basic-layout">
-       <!-- 外链 -->
+    <!-- 外链 -->
     <div class="external-link">
       <a
-         
         href="https://github.com/konglingwen94/vue-elm-admin"
         target="_blank"
         aria-label="View source on Github"
@@ -40,10 +39,23 @@
         <el-header>
           <admin-header></admin-header>
         </el-header>
-     
+        <div class="tag-container">
+          <tab-tag
+            :title="tag.name"
+            @click="toggleTag(tag)"
+            @close="closeTag(tag, index)"
+            v-for="(tag, index) in tags"
+            :key="index"
+            :closable="!tag.isHome"
+            :active="$route.path === tag.path"
+            :style="{ width: `${100 / maxTags}%` }"
+          >
+            {{ tag.name }}
+          </tab-tag>
+        </div>
+
         <el-main>
-          
-          <router-view></router-view>
+          <keep-alive> <router-view :max="maxTags" :key="$route.path"></router-view></keep-alive>
         </el-main>
       </el-container>
     </el-container>
@@ -57,27 +69,72 @@ export default {
     AdminMenubar,
     AdminHeader,
   },
+  data() {
+    return {
+      maxTags: 7,
+      tags: [{ name: "首页", path: "/seller/dashboard", isHome: true }],
+    };
+  },
+  watch: {
+    $route(newRoute) {
+      const index = this.tags.findIndex((item) => item.path === newRoute.path);
+      if (index === -1) {
+        if (this.tags.length >= this.maxTags) {
+          this.tags.splice(1, 1);
+        }
+        this.tags.push({
+          name: newRoute.meta.breadcrumbMenus[newRoute.meta.breadcrumbMenus.length - 1],
+          path: newRoute.path,
+        });
+      }
+    },
+  },
+  methods: {
+    closeTag(tag, index) {
+      this.tags.splice(index, 1);
+      const isActive = this.$route.path === tag.path;
 
+      if (isActive && !tag.isHome) {
+        this.$router.push(this.tags[this.tags.length - 1].path);
+      }
+    },
+    toggleTag(tag, index) {
+      if (tag.path === this.$route.path) {
+        return;
+      }
+      this.$router.push(tag.path);
+    },
+  },
   provide() {
     try {
       var account = JSON.parse(localStorage.getItem("adminInfo"));
     } catch (error) {
       return;
     }
-     
+
     return {
-      account 
+      account,
     };
   },
 };
 </script>
+
 <style lang="less">
- 
-.external-link{
-   
+.tag-container {
+  padding: 7px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid;
+  border-top: 1px solid;
+  border-color: #eee;
+  white-space: nowrap;
+  width: 100%;
+  padding-right: 100px;
+  
+}
+.external-link {
   position: absolute;
   right: 0;
-   
+
   top: 60px;
   z-index: 100;
 }
@@ -95,6 +152,5 @@ export default {
 .el-main {
   background-color: #e9eef3;
   color: #333;
-   
 }
 </style>
