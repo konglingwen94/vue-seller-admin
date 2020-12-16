@@ -47,10 +47,10 @@ const routes = [
     },
   },
   {
-    path: "ratings",
-    name: "ratings",
+    path: "rating",
+    name: "rating",
 
-    component: () => import(/* webpackChunkName: "ratings" */ "@/views/rating.vue"),
+    component: () => import(/* webpackChunkName: "rating" */ "@/views/rating.vue"),
     meta: {
       breadcrumbMenus: ["评价管理"],
     },

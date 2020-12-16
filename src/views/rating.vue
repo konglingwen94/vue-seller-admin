@@ -43,7 +43,7 @@
 <script>
 import { fetchRatings, deleteOneRating, deleteManyRatings } from "@/helper/request";
 export default {
-  name: "page-rating",
+  name: "rating",
   created() {
     this.updateList();
   },

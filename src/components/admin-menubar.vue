@@ -33,7 +33,7 @@
         <i class="el-icon-menu"></i>
         <span slot="title">分类管理</span>
       </el-menu-item>
-      <el-menu-item index="/ratings">
+      <el-menu-item index="/rating">
         <i class="el-icon-s-comment"></i>
         <span slot="title">评价管理</span>
       </el-menu-item>

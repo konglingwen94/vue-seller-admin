@@ -14,7 +14,7 @@
 <script>
 import { fetchAdministratorList } from "@/helper/request";
 export default {
-  name: "Administrator",
+  name: "administrator",
   data() {
     return {
       dataList: []
