@@ -45,11 +45,16 @@ npm run build
 - [ ] 项目整体和浏览标签优化
 
 
-## 支持
+
 
 ## 项目截图
 
 首页
-![首页](./screenshots/configuration.png)
+![首页](./screenshots/dashboard.png)
 
+配置页面
+![配置页面](./screenshots/configuration.png)
+
+
+## 支持
 喜欢本项目的话请您动手点一下`stat`,谢谢！
