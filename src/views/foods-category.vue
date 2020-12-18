@@ -132,7 +132,7 @@ export default {
 
       this.loading = true;
       (editingId
-        ? updateFoodsCategory(editingId, payload)
+        ? updateOneFoodsCategory(editingId, payload)
         : createOneFoodsCategory(payload)
       )
         .then(() => {

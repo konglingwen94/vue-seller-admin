@@ -85,7 +85,7 @@ export default {
         return this.$message.error("用户名不能为空");
       }
       const payload = { username };
-      const id = this.account.id;
+      const id = this.account._id;
       updateAccount(id, payload).then(() => {
         this.$message.success("账户修改成功");
         try {
