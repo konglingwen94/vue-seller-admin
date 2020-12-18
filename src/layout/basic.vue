@@ -41,7 +41,7 @@
         <el-header>
           <admin-header></admin-header>
         </el-header>
-        <div class="tag-container">
+        <div class="tag-container" v-if="useTagView">
           <tab-tag
             :title="tag.label"
             @click="toggleTag(tag)"
@@ -56,7 +56,7 @@
         </div>
 
         <el-main>
-          <keep-alive :max="maxTags" :include="cacheViews">
+          <keep-alive :max="maxTags" :include="useTagView ? cacheViews : []">
             <router-view :key="$route.fullPath"></router-view>
           </keep-alive>
         </el-main>
@@ -64,11 +64,13 @@
     </el-container>
 
     <!-- 抽屉菜单 -->
-    <div class="button-setting" style="position:fixed;right:10px;top:50vh">
-      <el-button @click="drawerVisible=true"><i class="el-icon-setting"></i></el-button>
+    <div class="button-setting" style="position:fixed;right:10px;top:50vh;font-size:30px">
+      <el-button @click="drawerVisible = true"><i class="el-icon-setting"></i></el-button>
     </div>
-    <el-drawer title="我是标题" :visible.sync="drawerVisible" direction="rtl">
-      <span>我来啦!</span>
+    <el-drawer title="全局设置" size="250px" :visible.sync="drawerVisible" direction="rtl">
+      <div style="padding-left:40px;margin-top:40px" class="drawer-inner">
+        使用选项卡标签：<el-switch v-model="useTagView"></el-switch>
+      </div>
     </el-drawer>
   </div>
 </template>
@@ -84,6 +86,7 @@ export default {
     return {
       drawerVisible: false,
       maxTags: 7,
+      useTagView: true,
       tags: [
         {
           label: "首页",
@@ -96,7 +99,14 @@ export default {
     };
   },
   watch: {
+    useTagView(newVal) {
+      if (!newVal) {
+        this.cacheViews = [];
+        this.tags.length = 1;
+      }
+    },
     $route(newRoute) {
+      if (!this.useTagView) return;
       const index = this.tags.findIndex((item) => item.path === newRoute.path);
       if (index === -1) {
         if (this.tags.length >= this.maxTags) {

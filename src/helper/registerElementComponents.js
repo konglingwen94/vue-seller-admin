@@ -3,6 +3,7 @@ import {
   Col,
   Dialog,
   Radio,
+  Switch,
   Progress,
   Rate,
   Tag,
@@ -50,6 +51,7 @@ export default (Vue) => {
   Vue.use(Progress);
   Vue.use(Pagination);
   Vue.use(InputNumber);
+  Vue.use(Switch);
   Vue.use(Dropdown);
   Vue.use(DropdownMenu);
   Vue.use(DropdownItem);
