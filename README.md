@@ -79,5 +79,10 @@ npm run build
 ![设置](./screenshots/setting.png)
 
 
+## 项目总结
+
+博客：<https://juejin.cn/post/6906796790390095879>
+
 ## 支持
-喜欢本项目的话请您动手点一下`stat`,谢谢！
+喜欢本项目的话请您动手点一下`star`,谢谢！
+欢迎关注和提[issues](https://github.com/konglingwen94/vue-seller-admin/issues)
