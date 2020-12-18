@@ -166,17 +166,17 @@ export default {
 
 <style lang="less">
 #button-setting {
-  position: absolute;
-  top: 50%;
+  position: fixed;
+  top: 13%;
   font-size: 30px;
-  right: 0;
+  right: -15px;
 }
 .drawer {
   overflow: visible;
   &-button--close {
     z-index: -1;
     position: absolute;
-    top: 50%;
+    top: 13%;
     left: -55px;
   }
 }
