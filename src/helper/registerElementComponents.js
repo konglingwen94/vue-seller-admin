@@ -36,10 +36,12 @@ import {
   InputNumber,
   PageHeader,
   Image,
+  Drawer,
 } from "element-ui";
 export default (Vue) => {
   Vue.prototype.$message = Message;
   Vue.prototype.$confirm = MessageBox.confirm;
+  Vue.use(Drawer);
   Vue.use(Image);
   Vue.use(Row);
   Vue.use(Col);

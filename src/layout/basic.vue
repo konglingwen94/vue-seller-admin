@@ -51,7 +51,8 @@
             :closable="!tag.isHome"
             :active="$route.path === tag.path"
             :style="{ width: `${100 / maxTags}%` }"
-          >{{ tag.label }}</tab-tag>
+            >{{ tag.label }}</tab-tag
+          >
         </div>
 
         <el-main>
@@ -61,6 +62,14 @@
         </el-main>
       </el-container>
     </el-container>
+
+    <!-- 抽屉菜单 -->
+    <div class="button-setting" style="position:fixed;right:10px;top:50vh">
+      <el-button @click="drawerVisible=true"><i class="el-icon-setting"></i></el-button>
+    </div>
+    <el-drawer title="我是标题" :visible.sync="drawerVisible" direction="rtl">
+      <span>我来啦!</span>
+    </el-drawer>
   </div>
 </template>
 <script>
@@ -69,25 +78,26 @@ import AdminHeader from "@/components/admin-header";
 export default {
   components: {
     AdminMenubar,
-    AdminHeader
+    AdminHeader,
   },
   data() {
     return {
+      drawerVisible: false,
       maxTags: 7,
       tags: [
         {
           label: "首页",
           name: "seller-dashboard",
           path: "/seller/dashboard",
-          isHome: true
-        }
+          isHome: true,
+        },
       ],
-      cacheViews: []
+      cacheViews: [],
     };
   },
   watch: {
     $route(newRoute) {
-      const index = this.tags.findIndex(item => item.path === newRoute.path);
+      const index = this.tags.findIndex((item) => item.path === newRoute.path);
       if (index === -1) {
         if (this.tags.length >= this.maxTags) {
           this.tags.splice(1, 1);
@@ -96,15 +106,12 @@ export default {
           this.cacheViews.push(this.$route.name);
         }
         this.tags.push({
-          label:
-            newRoute.meta.breadcrumbMenus[
-              newRoute.meta.breadcrumbMenus.length - 1
-            ],
+          label: newRoute.meta.breadcrumbMenus[newRoute.meta.breadcrumbMenus.length - 1],
           path: newRoute.path,
-          name: newRoute.name
+          name: newRoute.name,
         });
       }
-    }
+    },
   },
   methods: {
     closeTag(tag, index) {
@@ -121,7 +128,7 @@ export default {
         return;
       }
       this.$router.push(tag.path);
-    }
+    },
   },
   provide() {
     try {
@@ -131,9 +138,9 @@ export default {
     }
 
     return {
-      account
+      account,
     };
-  }
+  },
 };
 </script>
 
