@@ -64,10 +64,20 @@
     </el-container>
 
     <!-- 抽屉菜单 -->
-    <div class="button-setting" style="position:fixed;right:10px;top:50vh;font-size:30px">
-      <el-button @click="drawerVisible = true"><i class="el-icon-setting"></i></el-button>
+    <div id="button-setting">
+      <el-button type="primary" icon="el-icon-setting" @click="drawerVisible = true"></el-button>
     </div>
-    <el-drawer title="全局设置" size="250px" :visible.sync="drawerVisible" direction="rtl">
+    <el-drawer
+      custom-class="drawer"
+      title="全局设置"
+      size="250px"
+      :visible.sync="drawerVisible"
+      direction="rtl"
+    >
+      <div class="drawer-button--close">
+        <el-button type="primary" icon="el-icon-close" @click="drawerVisible = false"></el-button>
+      </div>
+
       <div style="padding-left:40px;margin-top:40px" class="drawer-inner">
         使用选项卡标签：<el-switch v-model="useTagView"></el-switch>
       </div>
@@ -155,6 +165,22 @@ export default {
 </script>
 
 <style lang="less">
+#button-setting {
+  position: absolute;
+  top: 50%;
+  font-size: 30px;
+  right: 0;
+}
+.drawer {
+  overflow: visible;
+  &-button--close {
+    z-index: -1;
+    position: absolute;
+    top: 50%;
+    left: -55px;
+  }
+}
+
 .tag-container {
   padding: 7px;
   padding-bottom: 5px;
