@@ -82,7 +82,9 @@ npm run build
 
 ## 项目总结
 
-博客：<https://juejin.cn/post/6906796790390095879>
+- [Vue+ElementUI搭建商家店铺管理后台项目总结](https://juejin.cn/post/6906796790390095879)
+- [Koa+Mongodb 搭建商家店铺服务端项目总结](https://juejin.cn/post/6907803934031609863)
+- [Vue全新技术栈重构黄老师饿了么商家应用](https://juejin.cn/post/6844904202624303118)
 
 ## 支持
 
